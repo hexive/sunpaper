@@ -15,8 +15,7 @@ Depending on your distro these utilities may be available within community repos
 ## Install
 
 1. put sunpaper.sh wherever you want it.
-2. make it executable:
-   $chmod +x sunpaper.sh
+2. make it executable:`chmod +x sunpaper.sh`
 3. put the folders from sunpaper/images/ wherever you want them.
 4. edit sunpaper.sh to set some configuration options (see below)
 5. call sunpaper.sh from waybar or i3blocks or cron etc (see below)
@@ -27,17 +26,17 @@ Sunpaper takes a few configuration options available by editing the sunpaper.sh 
 
 You'll need to set your latitude and longitude for your current location. If you aren't sure you can get these numbers from places like [latlong.net](https://www.latlong.net/) or even google maps.
 
-Make sure your latitude number ends with N
+Make sure your latitude number ends with N  
 `latitude="38.9072N"`
 
-and longitude ends with W
+and longitude ends with W  
 `longitude="77.0369W"`
 
-You can set what mode your wallpaper is displayed.
-Options include: stretch | center | tile | scale | zoom | fill
+You can set what mode your wallpaper is displayed.  
+Options include: stretch | center | tile | scale | zoom | fill  
 `wallpaperMode="scale"`
 
-And finally you need to set the full path to the location of the sunpaper/images with no ending folder slash:
+And finally you need to set the full path to the location of the sunpaper/images with no ending folder slash:  
 `wallpaperPath="$HOME/sunpaper/images/The-Desert"`
 
 ## Start it up
