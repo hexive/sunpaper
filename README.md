@@ -1,6 +1,6 @@
 ## Sunpaper
 
-Sunpaper is a simple bash script to change wallpaper based on your local sunrise and sunset times. It seeks to closely replicate the functionality of the Big Sur Dynamic Desktop Wallpapers. This script works really well as a Sway/i3 Waybar or i3blocks module but it should work on any distro / window manager.
+Sunpaper is a simple bash script to change wallpaper based on your local sunrise and sunset times. It seeks to closely replicate the functionality of the Big Sur Dynamic Desktop Wallpapers. This script works really well as a Sway/i3 Waybar or i3blocks module but it should work on any linux distro / window manager.
 
 ![Screenshot](screenshot.jpg)
 
@@ -14,9 +14,11 @@ Depending on your distro these utilities may be available within community repos
 
 ## Install
 
+`git clone https://github.com/hexive/sunpaper`
+
 1. put sunpaper.sh wherever you want it.
 2. make it executable:`chmod +x sunpaper.sh`
-3. put the folders from sunpaper/images/ wherever you want them.
+3. put the wallpaper folders from sunpaper/images/ wherever you want them.
 4. edit sunpaper.sh to set some configuration options (see below)
 5. call sunpaper.sh from waybar or i3blocks or cron etc (see below)
 
@@ -39,7 +41,7 @@ Options include: stretch | center | tile | scale | zoom | fill
 And finally you need to set the full path to the location of the sunpaper/images with no ending folder slash:  
 `wallpaperPath="$HOME/sunpaper/images/The-Desert"`
 
-## Start it up
+## Usage
 
 This script can be called directly however you'd like. Ideally, it's called from something with an interval of 60 seconds. That's why statusbars are easy choices. But you could also set up a [cronjob to call the script every minute](https://linuxhint.com/run_cron_job_every_minute/)
 
@@ -48,16 +50,24 @@ This script can be called directly however you'd like. Ideally, it's called from
 Add to waybar/config
 ```
     "custom/sunpaper":{
-      "exec": "~/.config/waybar/modules/sunpaper.sh", 
+      "exec": "/path/to/sunpaper.sh", 
       "interval": 60
       "tooltip": false
     },
 ```
 **As a i3blocks module**
 
-Add to i3blocks/config
+Add to i3blocks.conf
 ```
 [sunpaper]
 command=/path/to/sunpaper.sh
 interval=60
 ```
+
+## Why Sunpaper?
+
+The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linux machines. There are many other timed wallpaper utilies out there, but they all seemed to be using static timetables for the wallpaper changes. I wanted something that could be directly tied to the sunrise/sunset times locally and adapt to changess over the year without any fiddling on my part.
+
+## Disclaimers
+
+Wallpaper images are not mine, they come from Apple Big Sur.
