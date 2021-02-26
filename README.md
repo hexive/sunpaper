@@ -6,7 +6,7 @@ Sunpaper is a simple bash script to change wallpaper based on your local sunrise
 
 ## Dependencies
 
-1. [sunpaper](https://github.com/risacher/sunwait)
+1. [sunwait](https://github.com/risacher/sunwait)
 2. [wallutils](https://github.com/xyproto/wallutils)
 
 Depending on your distro these utilities may be available within community repositories.
@@ -41,9 +41,9 @@ And finally you need to set the full path to the location of the sunpaper/images
 
 ## Start it up
 
-This script can be called directly however you'd like. Ideally, it's called from something with an interval of about every minute. That's why statusbars are easy choices. But you could also set up a [cronjob to call the script every minute](https://linuxhint.com/run_cron_job_every_minute/)
+This script can be called directly however you'd like. Ideally, it's called from something with an interval of 60 seconds. That's why statusbars are easy choices. But you could also set up a [cronjob to call the script every minute](https://linuxhint.com/run_cron_job_every_minute/)
 
-#As a waybar module
+**As a waybar module**
 
 Add to waybar/config
 ```
@@ -53,7 +53,7 @@ Add to waybar/config
       "tooltip": false
     },
 ```
-#As a i3blocks module
+**As a i3blocks module**
 
 Add to i3blocks/config
 ```
