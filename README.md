@@ -52,38 +52,37 @@ The timing of wallpaper changes is also configurable with human-readable relativ
 
 ## Test it
 
-You can test the configuration by just calling the script directly:
-
+You can test the configuration by just calling the script directly:  
 `./sunpaper.sh`
 
-There are a few option flags that can help you during testing
+There are a few option flags that can help you during testing:
 
-Help! Show the option flags available.
+Help! Show the option flags available.  
 `./sunpaper.sh -h`
 
-Report! Show a table of all the time events for the wallpaper.
+Report! Show a table of all the time events for the wallpaper.  
 `./sunpaper.sh -r`
 
-Clear! Use this to clear the cache file. Call this after any configuration change to force a wallpaper update.
+Clear! Use this to clear the cache file. Call this after any configuration change to force a wallpaper update.  
 `./sunpaper.sh -c`
 
-Time! Want to see what will happen later today? This option will set a custom time so you can see what your wallpaper will look like then. Must be in HH:MM format. (-t 06:12)
+Time! Want to see what will happen later today? This option will set a custom time so you can see what your wallpaper will look like then. Must be in HH:MM format. (-t 06:12)  
 `./sunpaper.sh -t HH:MM`
 
 
 ## Set it to run automatically
 
-This script can be called directly however you'd like. Ideally, it's called from something with an interval of 60 seconds. That's why statusbars are easy choices, but there are many other options.
+Ideally, the script is called from something with an interval of 60 seconds. That's why statusbars are easy choices, but there are many other options.
 
 **As a waybar module**
 
 Add to waybar/config
 ```
-    "custom/sunpaper":{
-      "exec": "/path/to/sunpaper.sh", 
-      "interval": 60
-      "tooltip": false
-    },
+"custom/sunpaper":{
+  "exec": "/path/to/sunpaper.sh", 
+  "interval": 60
+  "tooltip": false
+},
 ```
 **As a i3blocks module**
 
@@ -137,13 +136,13 @@ Environment=DISPLAY=:1
 Environment=HOME=/home/dave/
 ```
 
-Relaod systemd daemon
+Relaod systemd daemon:  
 `systemctl daemon-reload`
 
-Start it up with
+Start it up with:  
 `systemctl start sunpaper.timer`
 
-Enable it always with
+Enable it always with:  
 `systemctl enable sunpaper.timer`
 
 
