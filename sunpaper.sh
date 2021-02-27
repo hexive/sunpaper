@@ -89,55 +89,55 @@ set_paper(){
         
         if [[ $currentpaper != 2 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
-        sed -i s/./2/g $HOME/.cache/sunpaper.cache
+        sed -i s/./2/g $cacheFile
       fi
 
     elif [ "$currenttime" -ge "$sunriseEarly" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
       
         if [[ $currentpaper != 3 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
-        sed -i s/./3/g $HOME/.cache/sunpaper.cache
+        sed -i s/./3/g $cacheFile
       fi
 
     elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$dayLight" ]; then
        
         if [[ $currentpaper != 4 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
-        sed -i s/./4/g $HOME/.cache/sunpaper.cache
+        sed -i s/./4/g $cacheFile
       fi
 
     elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly" ]; then
         
         if [[ $currentpaper != 5 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
-        sed -i s/./5/g $HOME/.cache/sunpaper.cache
+        sed -i s/./5/g $cacheFile
       fi
 
     elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightMid" ]; then
         
         if [[ $currentpaper != 6 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
-        sed -i s/./6/g $HOME/.cache/sunpaper.cache
+        sed -i s/./6/g $cacheFile
     	fi
 
     elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLate" ]; then
        
         if [[ $currentpaper != 7 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
-        sed -i s/./7/g $HOME/.cache/sunpaper.cache   
+        sed -i s/./7/g $cacheFile  
         fi
 
     elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ]; then
 
     	if [[ $currentpaper != 8 ]]; then
         	setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
-        	sed -i s/./8/g $HOME/.cache/sunpaper.cache
+        	sed -i s/./8/g $cacheFile
     	fi
 
     else 
     	if [[ $currentpaper != 1 ]]; then
     	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
-    	sed -i s/./1/g $HOME/.cache/sunpaper.cache
+    	sed -i s/./1/g $cacheFile
     	fi
     fi
 }
