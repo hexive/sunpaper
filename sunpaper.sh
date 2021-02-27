@@ -3,14 +3,11 @@
 ##CONFIG OPTIONS---------------------------------
 
 #Set your local latitude and longitude for sun calculations
-#latitude="38.9072N"
-#longitude="77.0369W"
 latitude="38.9072N"
 longitude="77.0369W"
 
 #Set how you want your wallpaper displayed
 #stretch | center | tile | scale | zoom | fill
-#wallpaperMode ="zoom"
 wallpaperMode="scale"
 
 #Set full path to your local dynamic wallpaper folder
@@ -51,7 +48,7 @@ sunset=$(date -d "$get_sunset" +"%s");
 
 currenttime=$(date +%s)
 
-##Paper Display Logic
+## Wallpaper Display Logic
 #1.jpg - after sunset until sunrise (sunset-sunrise)
 #2.jpg - sunrise for 15 min (sunrise - sunriseEarly)
 #3.jpg - 15 min after sunrise for 15 min (sunriseEarly-sunriseMid)
@@ -66,7 +63,6 @@ if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseEarly" ]; 
     if [[ $currentpaper != 2 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
     sed -i s/./2/g $HOME/.cache/sunpaper.cache
-    echo "2"
   fi
 
 elif [ "$currenttime" -ge "$sunriseEarly" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
@@ -74,7 +70,6 @@ elif [ "$currenttime" -ge "$sunriseEarly" ] && [ "$currenttime" -lt "$sunriseMid
     if [[ $currentpaper != 3 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
     sed -i s/./3/g $HOME/.cache/sunpaper.cache
-    echo "3"
   fi
 
 elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$dayLight" ]; then
@@ -82,7 +77,6 @@ elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$dayLight" ];
     if [[ $currentpaper != 4 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
     sed -i s/./4/g $HOME/.cache/sunpaper.cache
-    echo "4"
   fi
 
 elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly" ]; then
@@ -90,7 +84,6 @@ elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly"
     if [[ $currentpaper != 5 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
     sed -i s/./5/g $HOME/.cache/sunpaper.cache
-    echo "5"
   fi
 
 elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightMid" ]; then
@@ -98,7 +91,6 @@ elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightM
     if [[ $currentpaper != 6 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
     sed -i s/./6/g $HOME/.cache/sunpaper.cache
-    echo "6"
 	fi
 
 elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLate" ]; then
@@ -106,21 +98,18 @@ elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLat
     if [[ $currentpaper != 7 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
     sed -i s/./7/g $HOME/.cache/sunpaper.cache   
-    echo "7" 	
     fi
 
 elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ]; then
 
 	if [[ $currentpaper != 8 ]]; then
-    setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
-    sed -i s/./8/g $HOME/.cache/sunpaper.cache
-    echo "8"
+    	setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
+    	sed -i s/./8/g $HOME/.cache/sunpaper.cache
 	fi
 
 else 
-if [[ $currentpaper != 1 ]]; then
-	  setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
-	   sed -i s/./1/g $HOME/.cache/sunpaper.cache
-        echo "1"
-		fi
+	if [[ $currentpaper != 1 ]]; then
+	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
+	sed -i s/./1/g $HOME/.cache/sunpaper.cache
+	fi
 fi

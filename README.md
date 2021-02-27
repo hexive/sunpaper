@@ -41,9 +41,11 @@ Options include: stretch | center | tile | scale | zoom | fill
 And finally you need to set the full path to the location of the sunpaper/images with no ending folder slash:  
 `wallpaperPath="$HOME/sunpaper/images/The-Desert"`
 
+The timing of wallpaper changes is also configurable with human-readable relative time statements, if you can make sense of the bash. By default, most of the day/night is represented with a single wallpaper image, but then there is a flurry of activity within 1.5 hours of both sunrise/sunset.
+
 ## Usage
 
-This script can be called directly however you'd like. Ideally, it's called from something with an interval of 60 seconds. That's why statusbars are easy choices. But you could also set up a [cronjob to call the script every minute](https://linuxhint.com/run_cron_job_every_minute/)
+This script can be called directly however you'd like. Ideally, it's called from something with an interval of 60 seconds. That's why statusbars are easy choices, but there are many other options.
 
 **As a waybar module**
 
@@ -63,10 +65,22 @@ Add to i3blocks.conf
 command=/path/to/sunpaper.sh
 interval=60
 ```
+**As a cron job**
+
+[Crontab setup to call a script every minute](https://linuxhint.com/run_cron_job_every_minute/)
+
+**As a systemd service**
+
+Something like this should work in theory. If you try it, you'll probably need full paths in the script and maybe use your WM specific wallpaper cli changing method instead of setwallpaper. I'll [test this](https://unix.stackexchange.com/questions/198444/run-script-every-30-min-with-systemd) and write it up here if it works.
 
 ## Why Sunpaper?
 
 The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linux machines. There are many other timed wallpaper utilities out there, but they all seemed to be using static timetables for the wallpaper changes. I wanted something that could be directly tied to the sunrise/sunset times locally and adapt to changes over the year without any fiddling on my part.
+
+## Known Issues
+
+- Sway - there's a brief gray flash on each wallpaper change. It's a [known issue](https://github.com/swaywm/sway/issues/3693) with swaywm, apparently, there's not an easy fix.
+- Sway - if you use [azote](https://github.com/nwg-piotr/azote) at any time to change your wallpaper, Sunpaper won't be able to make any further changes for that session (logout and log back in to continue).
 
 ## Disclaimers
 
