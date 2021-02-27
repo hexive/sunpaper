@@ -33,8 +33,8 @@ else
 fi
 
 # Use sunwait to calculate sunrise/sunset times
-get_sunrise=$(sunwait list civil rise $latitude 77.0261W);
-get_sunset=$(sunwait list civil set $longitude 77.0261W);
+get_sunrise=$(sunwait list civil rise $latitude $longitude);
+get_sunset=$(sunwait list civil set $latitude $longitude);
 
 # Use human-readable relative time for offset adjustments
 sunrise=$(date -d "$get_sunrise" +"%s");
