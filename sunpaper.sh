@@ -23,14 +23,14 @@ wallpaperPath="$HOME/sunpaper/images/The-Desert"
 # Sunpaper writes the current wallpaper to a cachefile
 # this keeps the script from updating your wallpaper
 # when it doesn't need to.
-# You can set a differnt location for this file or just leave
-# it as the default.
 #
-# Note if you are testing configuration changes and want to remove
-# this file to force a wallpaper update you can now call sunpaper.sh -c
-
+# NOTE: You will want to clear this cache file after
+# some configuration changes in order to see the results. 
+# Call ./sunpaper.sh -c to do this easily 
+#
+# You can set a different location for this file or just leave
+# it as the default.
 cacheFile=$HOME/.cache/sunpaper.cache
-
 
 ##CONFIG OPTIONS END----------------------------
 
@@ -158,9 +158,8 @@ show_suntimes(){
 
 clear_cache(){
 
-    FILE=$HOME/.cache/sunpaper.cache
-    if [ -f "$FILE" ]; then
-        rm $HOME/.cache/sunpaper.cache
+    if [ -f "$cacheFile" ]; then
+        rm $cacheFile
     else 
         echo "no cache file found"
     fi
@@ -169,19 +168,25 @@ clear_cache(){
 
 show_help(){
 cat << EOF  
-HELP!
+Sunpaper Option Flags
 
--h, --help,     Display help
+-h, --help,     Help! Show the option flags available.
 
--r, --report,   Show times for all wallpaper events
+-r, --report,   Report! Show a table of all the time 
+                events for the wallpaper today.
 
--c, --clear,    Clear the cache file
+-c, --clear,    Clear! Use this to clear the cache file. 
+                Call this after any configuration change 
+                to force a wallpaper update.
 
--t, --time,     Set a curent time for testing must be in HH:MM format (ex 06:12 14:02)
+-t, --time,     Time! Want to see what will happen 
+                later today? This option will set a custom 
+                time so you can see what your wallpaper will 
+                look like then. Must be in HH:MM format. 
+                (-t 06:12)
 
 EOF
 }
-
 
 time=
 verbose=0
@@ -207,7 +212,7 @@ while :; do
             time=$2
             shift
         else
-            echo 'ERROR: "--time" requires 06:10'
+            echo 'ERROR: "--time" requires format of 06:10'
             exit
         fi         
         ;;
@@ -216,7 +221,7 @@ while :; do
     shift
 done
 
-# Regular Flow
+# No-Flag WorkFlow
 set_cache
 get_currenttime
 get_suntimes
