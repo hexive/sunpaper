@@ -32,12 +32,10 @@ wallpaperPath="$HOME/sunpaper/images/The-Desert"
 # it as the default.
 cacheFile=$HOME/.cache/sunpaper.cache
 
+
 ##CONFIG OPTIONS END----------------------------
 
 set_cache(){
-
-    ## Setup Cache File 
-    #TODO: Use $XDG_CACHE_HOME instead? What if it's not set?
 
     if [ -f "$cacheFile" ]; then
         currentpaper=$( cat < $cacheFile );
@@ -64,8 +62,8 @@ get_suntimes(){
 
     # Use human-readable relative time for offset adjustments
     sunrise=$(date -d "$get_sunrise" +"%s");
-    sunriseEarly=$(date -d "$get_sunrise 15 minutes" +"%s");
-    sunriseMid=$(date -d "$get_sunrise 30 minutes" +"%s");
+    sunriseMid=$(date -d "$get_sunrise 15 minutes" +"%s");
+    sunriseLate=$(date -d "$get_sunrise 30 minutes" +"%s");
     dayLight=$(date -d "$get_sunrise 90 minutes" +"%s");
     twilightEarly=$(date -d "$get_sunset 90 minutes ago" +"%s");
     twilightMid=$(date -d "$get_sunset 30 minutes ago" +"%s");
@@ -75,9 +73,9 @@ get_suntimes(){
 
     ## Wallpaper Display Logic
     #1.jpg - after sunset until sunrise (sunset-sunrise)
-    #2.jpg - sunrise for 15 min (sunrise - sunriseEarly)
-    #3.jpg - 15 min after sunrise for 15 min (sunriseEarly-sunriseMid)
-    #4.jpg - 30 min after sunrise for 1 hour (sunriseMid-dayLight)
+    #2.jpg - sunrise for 15 min (sunrise - sunriseMid)
+    #3.jpg - 15 min after sunrise for 15 min (sunriseEarly-sunriseLate)
+    #4.jpg - 30 min after sunrise for 1 hour (sunriseLate-dayLight)
     #5.jpg - day light between sunrise and sunset events (dayLight-twilightEarly)
     #6.jpg - 1.5 hours before sunset for 1 hour (twilightEarly-twilightMid)
     #7.jpg - 30 min before sunset for 15 min (twilightMid-twilightLate)
@@ -85,21 +83,21 @@ get_suntimes(){
 
 set_paper(){
 
-    if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseEarly" ]; then
+    if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
         
         if [[ $currentpaper != 2 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
         sed -i s/./2/g $cacheFile
       fi
 
-    elif [ "$currenttime" -ge "$sunriseEarly" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
+    elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate" ]; then
       
         if [[ $currentpaper != 3 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
         sed -i s/./3/g $cacheFile
       fi
 
-    elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$dayLight" ]; then
+    elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]; then
        
         if [[ $currentpaper != 4 ]]; then
         setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
@@ -144,16 +142,18 @@ set_paper(){
 
 show_suntimes(){
 
+    echo "Sunpaper: 2.27"
     echo "Current Time: "`date -d "@$currenttime" +"%H:%M"`
+    echo "Current Paper: $currentpaper"
     echo ""
     echo "Sunrise: "`date -d "@$sunrise" +"%H:%M"`
-    echo "Sunrise Early: "`date -d "@$sunriseEarly" +"%H:%M"`
-    echo "Sunrise Middle: "`date -d "@$sunriseMid" +"%H:%M"`
+    echo "Sunrise Mid: "`date -d "@$sunriseMid" +"%H:%M"`
+    echo "Sunrise Late: "`date -d "@$sunriseLate" +"%H:%M"`
     echo "Daylight: "`date -d "@$dayLight" +"%H:%M"`
     echo "Twilight Early: "`date -d "@$twilightEarly" +"%H:%M"`
-    echo "Twilight Middle: "`date -d "@$twilightMid" +"%H:%M"`
+    echo "Twilight Mid: "`date -d "@$twilightMid" +"%H:%M"`
     echo "Twilight Late: "`date -d "@$twilightLate" +"%H:%M"`
-    echo "Twilight Sunset: "`date -d "@$sunset" +"%H:%M"`
+    echo "Sunset: "`date -d "@$sunset" +"%H:%M"`
 }
 
 clear_cache(){
@@ -168,7 +168,7 @@ clear_cache(){
 
 show_help(){
 cat << EOF  
-Sunpaper Option Flags
+Sunpaper Option Flags (flags cannot be combined)
 
 -h, --help,     Help! Show the option flags available.
 
@@ -188,7 +188,6 @@ Sunpaper Option Flags
 EOF
 }
 
-time=
 verbose=0
 
 while :; do
@@ -198,6 +197,7 @@ while :; do
             exit         
         ;;
         -r|--report) 
+	        set_cache
             get_currenttime
             get_suntimes
             show_suntimes  
