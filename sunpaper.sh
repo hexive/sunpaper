@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#123
 ##CONFIG OPTIONS---------------------------------
 
 #Set your local latitude and longitude for sun calculations
