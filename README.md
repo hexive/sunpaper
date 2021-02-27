@@ -26,7 +26,9 @@ Depending on your distro these utilities may be available within community repos
 
 Sunpaper takes a few configuration options available by editing the sunpaper.sh file directly:
 
-You'll need to set your latitude and longitude for your current location. If you aren't sure you can get these numbers from places like [latlong.net](https://www.latlong.net/) or even google maps.
+> NOTE: if you change settings, you'll need to also remove the cache file at ~/.config/sunpaper.cache to see the changes before the next time event.
+
+Set your latitude and longitude for your current location. If you aren't sure you can get these numbers from places like [latlong.net](https://www.latlong.net/) or even google maps.
 
 Make sure your latitude number ends with N  
 `latitude="38.9072N"`
@@ -71,7 +73,7 @@ interval=60
 
 **As a systemd service**
 
-Something like this should work in theory. If you try it, you'll probably need full paths in the script and maybe use your WM specific wallpaper cli changing method instead of setwallpaper. I'll [test this](https://unix.stackexchange.com/questions/198444/run-script-every-30-min-with-systemd) and write it up here if it works.
+Something like this should work in theory. If you try it, you'll probably need full paths in the script and maybe use your WM specific wallpaper cli changing method instead of using setwallpaper. I'll [test this](https://unix.stackexchange.com/questions/198444/run-script-every-30-min-with-systemd) and write it up here if it works.
 
 ## Why Sunpaper?
 
