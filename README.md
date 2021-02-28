@@ -71,7 +71,7 @@ it as the default.
 You may use the script to trigger a darkmode on your desktop or any other actions you want to preform on day / night. This feature is disabled by default but you can enable it like:  
 `darkmode_enable="true"`
 
-And if darkmode is enabled, use these two lines to set the the external command to run on day / night.
+And if darkmode is enabled, use these two lines to set the the external command to run on day / night.  
 `darkmode_run_day=""`  
 `darkmode_run_night=""`  
 
