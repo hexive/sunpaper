@@ -10,7 +10,7 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 - [x] Sets day/night wallpaper with 3 additional transitions for each sunrise/sunset
 - [x] 4 wallpaper themes to choose from (source: Apple Big-Sur)
 - [x] Darkmode trigger to run external script at day/night
-- [ ] FOSS wallpaper themes
+- [ ] New original content FOSS wallpaper themes
 - [ ] Statusbar mode to display icon and on/off switch in swaybar/waybar/i3bar/i3blocks etc.
 
 [Dependencies](#dependencies)  
@@ -61,11 +61,10 @@ Set what mode your wallpaper is displayed.
 Options include: stretch | center | tile | scale | zoom | fill  
 `wallpaperMode="scale"`
 
-Set the full path to the location of the sunpaper/images with no ending folder slash:  
+Set the full path to the location of the sunpaper/images:  
 `wallpaperPath="$HOME/sunpaper/images/The-Desert"`
 
-Sunpaper writes some cache files to keep track of persistent variables. Set a different location for this file or just leave
-it as the default.
+Sunpaper writes some cache files to keep track of persistent variables. Set a different location for these or just leave it as the default.
 `cachePath="$HOME/.cache"`
 
 You may use the script to trigger a darkmode on your desktop or any other actions you want to preform on day / night. This feature is disabled by default but you can enable it like:  
@@ -77,7 +76,7 @@ And if darkmode is enabled, use these two lines to set the the external command 
 
 For example:  
 `darkmode_run_day="bash /path/to/switch.sh light"`  
-`darkmode_run_day="bash /path/to/switch.sh dark"` 
+`darkmode_run_night="bash /path/to/switch.sh dark"` 
 
 
 The timing of wallpaper changes is also configurable with human-readable relative time statements, if you can make sense of the bash. By default, most of the day/night is represented with a single wallpaper image, but then there is a flurry of activity within 1.5 hours of both sunrise/sunset.
@@ -93,13 +92,13 @@ There are a few option flags that can help you during testing:
 Help! Show the option flags available.  
 `./sunpaper.sh -h`
 
-Report! Show a table of all the time events for the wallpaper.  
+Report! Show a table of all the time events scheduled for the day.  
 `./sunpaper.sh -r`
 
 Clear! Use this to clear the cache files. Call this after any configuration change to force a wallpaper update.  
 `./sunpaper.sh -c`
 
-Time! Want to see what will happen later today? This option will set a custom time so you can see what your wallpaper will look like then. Must be in HH:MM format. (-t 06:12)  
+Time! Want to see what will happen later today? This option will set a custom time so you can see what your wallpaper will look like then. It must be in HH:MM format. (-t 06:12)  
 `./sunpaper.sh -t HH:MM`
 
 
