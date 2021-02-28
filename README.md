@@ -4,6 +4,25 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 
 ![Screenshot](screenshot.jpg)
 
+## Features
+
+- [x] Changes wallpaper based on the sun location where you are
+- [x] Day/night wallpaper with 3 additional transitions for each sunrise/sunset
+- [x] 4 wallpaper themes to choose from (source: Apple Big-Sur)
+- [x] Darkmode trigger to run external script at day/night
+- [ ] FOSS wallpaper themes
+- [ ] Statusbar mode to display icon and on/off switch in swaybar/waybar/i3bar/i3blocks etc.
+
+[Dependencies](#dependencies)  
+[Install](#install)  
+[Configure](#configure)  
+[Test it](#test-it)  
+[Set it to run automatically](#set-it-to-run-automatically)  
+[Why Sunpaper](#why-sunpaper)  
+[Known Issues](#known-issues)  
+[Disclaimers](#disclaimers)  
+
+
 ## Dependencies
 
 1. [sunwait](https://github.com/risacher/sunwait)
@@ -15,6 +34,8 @@ Depending on your distro these utilities may be available within community repos
 ## Install
 
 `git clone https://github.com/hexive/sunpaper`
+
+> NOTE: The Wallpaper image files in sunpaper/images are quite large (165MB total), so if bandwitdh is a concern you could also just grab the sunpaper.sh script and an individual folder for the theme you want.
 
 1. put sunpaper.sh wherever you want it.
 2. make it executable:`chmod +x sunpaper.sh`
@@ -43,9 +64,9 @@ Options include: stretch | center | tile | scale | zoom | fill
 Set the full path to the location of the sunpaper/images with no ending folder slash:  
 `wallpaperPath="$HOME/sunpaper/images/The-Desert"`
 
-Set the location of the cache file.  
-Sunpaper writes the current wallpaper to a cachefile to keep the script from updating your wallpaper when it doesn't need to. You may set a differnt location for this file or just leave it as the default.
-`cacheFile=$HOME/.cache/sunpaper.cache"`
+Sunpaper writes some cache files to keep track of persistent variables. Set a different location for this file or just leave
+it as the default.
+`cachePath="$HOME/.cache"`
 
 The timing of wallpaper changes is also configurable with human-readable relative time statements, if you can make sense of the bash. By default, most of the day/night is represented with a single wallpaper image, but then there is a flurry of activity within 1.5 hours of both sunrise/sunset.
 
@@ -100,7 +121,7 @@ interval=60
 
 (thanks to /u/Dave77459 for sharing his systemd setup)
 
-If you try this you'll obviously need to adjust the paths below for your particular system. I had some trouble getting setwallpaper to recognize my enviroment properly, so you could also try replacing the lines in the sunpaper.sh script with setwallpaper to whatever cli wallpaer changer your WM prefers.
+If you try this you'll obviously need to adjust the paths below for your particular system. I had some trouble getting setwallpaper to recognize my environment properly, so you could also try replacing the lines in the sunpaper.sh script with setwallpaper to whatever cli wallpaper changer your WM prefers.
 
 /etc/systemd/system/sunpaper.timer
 ```
@@ -155,6 +176,7 @@ The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linu
 
 - Sway - there's a brief gray flash on each wallpaper change. It's a [known issue](https://github.com/swaywm/sway/issues/3693) with swaywm, apparently, there's not an easy fix.
 - Sway - if you use [azote](https://github.com/nwg-piotr/azote) at any time to change your wallpaper, Sunpaper won't be able to make any further changes for that session (logout and log back in to continue).
+- Fedora - community repo has older versions of both sunwait and wallutils. Unfortunately, you'll need to build them both from their github sources.
 
 
 ## Disclaimers
