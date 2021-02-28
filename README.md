@@ -68,6 +68,18 @@ Sunpaper writes some cache files to keep track of persistent variables. Set a di
 it as the default.
 `cachePath="$HOME/.cache"`
 
+You may use the script to trigger a darkmode on your desktop or any other actions you want to preform on day / night. This feature is disabled by default but you can enable it like:  
+`darkmode_enable="true"`
+
+And if darkmode is enabled, use these two lines to set the the external command to run on day / night.
+`darkmode_run_day=""`  
+`darkmode_run_night=""`  
+
+For example:  
+`darkmode_run_day="bash /path/to/switch.sh light"`  
+`darkmode_run_day="bash /path/to/switch.sh dark"` 
+
+
 The timing of wallpaper changes is also configurable with human-readable relative time statements, if you can make sense of the bash. By default, most of the day/night is represented with a single wallpaper image, but then there is a flurry of activity within 1.5 hours of both sunrise/sunset.
 
 
@@ -84,7 +96,7 @@ Help! Show the option flags available.
 Report! Show a table of all the time events for the wallpaper.  
 `./sunpaper.sh -r`
 
-Clear! Use this to clear the cache file. Call this after any configuration change to force a wallpaper update.  
+Clear! Use this to clear the cache files. Call this after any configuration change to force a wallpaper update.  
 `./sunpaper.sh -c`
 
 Time! Want to see what will happen later today? This option will set a custom time so you can see what your wallpaper will look like then. Must be in HH:MM format. (-t 06:12)  
@@ -105,6 +117,7 @@ Add to waybar/config
   "tooltip": false
 },
 ```
+
 **As a i3blocks module**
 
 Add to i3blocks.conf
@@ -113,6 +126,7 @@ Add to i3blocks.conf
 command=/path/to/sunpaper.sh
 interval=60
 ```
+
 **As a cron job**
 
 [Crontab setup to call a script every minute](https://linuxhint.com/run_cron_job_every_minute/)
