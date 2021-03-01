@@ -22,7 +22,7 @@ wallpaperMode="scale"
 #wallpaperPath="/path/to/sunpaper/images/The-Beach"
 #wallpaperPath="/path/to/sunpaper/images/The-Cliffs"
 #wallpaperPath="/path/to/sunpaper/images/The-Lake"
-wallpaperPath="$HOME/sunpaper/images/The-Desert"
+wallpaperPath="$HOME/sunpaper/images/Lakeside"
 
 # Sunpaper writes some cache files to keep track of 
 # persistent variables.
