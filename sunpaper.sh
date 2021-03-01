@@ -129,6 +129,8 @@ get_suntimes(){
     twilightMid=$(date -d "$get_sunset 30 minutes ago" +"%s");
     twilightLate=$(date -d "$get_sunset 15 minutes ago" +"%s");
     sunset=$(date -d "$get_sunset" +"%s");
+
+    poll=$(sunwait poll civil $latitude $longitude)
 }
 
 show_suntimes(){
@@ -136,6 +138,9 @@ show_suntimes(){
     #echo "--------------"
     echo "Sunpaper: $version"
     echo "Current Paper: $currentpaper.jpg"
+    if [ "$darkmode_enable" == "true" ]; then
+        echo "Darkmode Status: $poll"
+    fi
     echo ""
     echo `date -d "@$currenttime" +"%H:%M"` "- Current Time"
     echo ""
@@ -337,6 +342,5 @@ if [ "$darkmode_enable" == "true" ]; then
     local_darkmode
 fi
 if [ "$waybar_enable" == "true" ]; then
-    #show_suntimes_json
     show_suntimes_waybar
 fi
