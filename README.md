@@ -230,19 +230,16 @@ The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linu
 
 Wallpaper images are not mine, they are from the following sources:
 
-*From Apple Big Sur:*
-
-6016x6016 
+**From Apple Big Sur (6016x6016)**
 
 |The Desert|The Lake|The Cliffs|The Beach|
 |--|--|--|--|
 |![Thumbnail](screenshots/the-desert-200.jpg)|![Thumbnail](screenshots/the-lake-200.jpg)|![Thumbnail](screenshots/the-cliffs-200.jpg)|![Thumbnail](screenshots/the-beach-200.jpg)|
 
 
-*From Louis Coyle:*  
+**From Louis Coyle: (7680x3214)**  
 [https://dribbble.com/louiscoyle](https://dribbble.com/louiscoyle)
 
-7680x3214
 
 |Lakeside|
 |--|
