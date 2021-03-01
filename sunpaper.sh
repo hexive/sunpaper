@@ -4,6 +4,7 @@
 #2.26 - initial commit
 #2.27 - functionize & option flags
 #2.28 - new darkmode feature
+#3.01 - new waybar feature
 
 ##CONFIG OPTIONS---------------------------------
 
@@ -19,10 +20,10 @@ longitude="77.0369W"
 wallpaperMode="scale"
 
 # Set full path to the wallpaper theme folder
-#wallpaperPath="/path/to/sunpaper/images/The-Beach"
-#wallpaperPath="/path/to/sunpaper/images/The-Cliffs"
-#wallpaperPath="/path/to/sunpaper/images/The-Lake"
-wallpaperPath="$HOME/sunpaper/images/Lakeside"
+# Theme folder names:
+# Apple: The-Beach The-Cliffs The-Lake The-Desert
+# Louis Coyle: Lakeside
+wallpaperPath="$HOME/sunpaper/images/The-Desert"
 
 # Sunpaper writes some cache files to keep track of 
 # persistent variables.
@@ -48,8 +49,17 @@ darkmode_enable="false"
 darkmode_run_day=""
 darkmode_run_night=""
 
+# Sunpaper has a special mode for use with sway/waybar 
+# It displays an icon and sun times report as a tooltip.
+# sunpaper.sh --waybar
+# 
+# Set the icon display for that here
+status_icon=""
+
 
 ##CONFIG OPTIONS END----------------------------
+
+version="3.01"
 
 #Trim any trailing slashes from paths
 wallpaperPath=$(echo $wallpaperPath | sed 's:/*$::')
@@ -123,19 +133,33 @@ get_suntimes(){
 
 show_suntimes(){
 
-    echo "--------------"
-    echo "Sunpaper: 2.28"
-    echo "Current Time: "`date -d "@$currenttime" +"%H:%M"`
-    echo "Current Paper: $currentpaper"
+    #echo "--------------"
+    echo "Sunpaper: $version"
+    echo "Current Paper: $currentpaper.jpg"
     echo ""
-    echo "(2.jpg) Sunrise: "`date -d "@$sunrise" +"%H:%M"`
-    echo "(3.jpg) Sunrise Mid: "`date -d "@$sunriseMid" +"%H:%M"`
-    echo "(4.jpg) Sunrise Late: "`date -d "@$sunriseLate" +"%H:%M"`
-    echo "(5.jpg) Daylight: "`date -d "@$dayLight" +"%H:%M"`
-    echo "(6.jpg) Twilight Early: "`date -d "@$twilightEarly" +"%H:%M"`
-    echo "(7.jpg) Twilight Mid: "`date -d "@$twilightMid" +"%H:%M"`
-    echo "(8.jpg) Twilight Late: "`date -d "@$twilightLate" +"%H:%M"`
-    echo "(1.jpg) Sunset: "`date -d "@$sunset" +"%H:%M"`
+    echo `date -d "@$currenttime" +"%H:%M"` "- Current Time"
+    echo ""
+    echo `date -d "@$sunrise" +"%H:%M"` "- Sunrise (2.jpg)"
+    echo `date -d "@$sunriseMid" +"%H:%M"` "- Sunrise Mid (3.jpg)"
+    echo `date -d "@$sunriseLate" +"%H:%M"` "- Sunrise Late (4.jpg)"
+    echo `date -d "@$dayLight" +"%H:%M"` "- Daylight (5.jpg)"
+    echo `date -d "@$twilightEarly" +"%H:%M"` "- Twilight Early (6.jpg)"
+    echo `date -d "@$twilightMid" +"%H:%M"` "- Twilight Mid (7.jpg)"
+    echo `date -d "@$twilightLate" +"%H:%M"` "- Twilight Late (8.jpg)"
+    echo `date -d "@$sunset" +"%H:%M"` "- Sunset (1.jpg)"
+}
+
+show_suntimes_waybar(){
+
+#sunpaper calls itself to get -r report lines
+sunpaper_self=`realpath $0`
+output=$(bash $sunpaper_self -r)
+
+tooltip="$(echo "$output" | sed -z 's/\n/\\n/g')"
+tooltip=${tooltip::-2}
+
+echo "{\"text\":\""$status_icon"\", \"tooltip\":\""$tooltip"\"}"
+exit 0
 }
 
 ## Wallpaper Display Logic
@@ -227,12 +251,17 @@ Sunpaper Option Flags (flags cannot be combined)
                 look like then. Must be in HH:MM format. 
                 (-t 06:12)
 
+-w, --waybar,   Waybar! Use sway/waybar? Call sunpaper.sh with this 
+                flag in the waybar config and it will display
+                an icon in the bar and show the full sun time report
+                as a tooltip.
+
 EOF
 }
 
 local_darkmode(){
 
-    #TODO: have sunwait take currenttime so this will change with testing values
+    #TODO: have sunwait take $currenttime so this will change with testing values
     # sunwait has no time flag -- so this wont work  
     #d_ay=$(date -d "@$currenttime" +%d)
     #m_onth=$(date -d "@$currenttime" +%m)
@@ -289,12 +318,16 @@ while :; do
             exit
         fi         
         ;;
+        -w|--waybar) 
+            waybar_enable="true"
+            shift             
+        ;;
         *) break
     esac
     shift
 done
 
-# No-Flag WorkFlow
+# Start Calling Functions
 set_cache
 get_currenttime
 get_suntimes
@@ -302,4 +335,8 @@ set_paper
 
 if [ "$darkmode_enable" == "true" ]; then
     local_darkmode
+fi
+if [ "$waybar_enable" == "true" ]; then
+    #show_suntimes_json
+    show_suntimes_waybar
 fi

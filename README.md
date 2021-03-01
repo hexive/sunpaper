@@ -1,20 +1,21 @@
 ## Sunpaper
 
-Sunpaper is a bash script to change wallpaper based on your local sunrise and sunset times. It seeks to closely replicate the functionality of the Big Sur Dynamic Desktop Wallpapers. This script works really well as a Sway/i3 Waybar or i3blocks module but it should work on any linux distro / window manager.
+Sunpaper is a bash script to change wallpaper based on your local sunrise and sunset times. It seeks to closely replicate the functionality of the Big Sur Dynamic Desktop Wallpapers. This script works really well as a Sway/Waybar or i3/i3blocks module but it should work on any linux distro / window manager.
 
-![Screenshot](screenshot.jpg)
+![Screenshot](screenshots/screenshot.jpg)
 
 ## Features
 
 - [x] Changes wallpaper based on the sun location where you are
 - [x] Sets day/night wallpaper with 3 additional transitions for each sunrise/sunset
-- [x] 4 wallpaper themes to choose from (source: Apple Big-Sur)
+- [x] 5 wallpaper themes to choose from (sources: Apple Big-Sur & Louis Coyle's Lakeside 2019)
 - [x] Darkmode trigger to run external script at day/night
+- [x] Waybar mode to display icon and sun time report on tooltip.
 
 ## TODO
 
 - [ ] New original content FOSS wallpaper themes
-- [ ] Statusbar mode to display icon and on/off switch in swaybar/waybar/i3bar/i3blocks etc.
+- [ ] More custom status bar modes 
 
 
 ## Readme Contents
@@ -32,16 +33,17 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 ## Dependencies
 
 1. [sunwait](https://github.com/risacher/sunwait)
-2. [wallutils](https://github.com/xyproto/wallutils)
+2. [wallutils](https://github.com/xyproto/wallutils) (for `setwallpaper`)
+3. [Font Awesome](https://fontawesome.com) (optionally, for waybar status icon)
 
-Depending on your distro these utilities may be available within community repositories.
+Make sure these utilies are already installed. Depending on your distro they may be available within community repositories. If not, these are both pretty easy to build from github source.
 
 
 ## Install
 
 `git clone https://github.com/hexive/sunpaper`
 
-> NOTE: The Wallpaper image files in sunpaper/images are quite large (165MB total), so if bandwitdh is a concern you could also just grab the sunpaper.sh script and an individual folder for the theme you want.
+> NOTE: The Wallpaper image files in sunpaper/images are quite large (165MB+ total), so if bandwitdh is a concern you could also just grab the sunpaper.sh script and an individual folder for the theme you want.
 
 1. put sunpaper.sh wherever you want it.
 2. make it executable:`chmod +x sunpaper.sh`
@@ -76,13 +78,16 @@ Sunpaper writes some cache files to keep track of persistent variables. Set a di
 You may use the script to trigger a darkmode on your desktop or any other actions you want to preform on day / night. This feature is disabled by default but you can enable it like:  
 `darkmode_enable="true"`
 
-And if darkmode is enabled, use these two lines to set the the external command to run on day / night.  
+If darkmode is enabled, use these two lines to set the the external command to run on day / night.  
 `darkmode_run_day=""`  
 `darkmode_run_night=""`  
 
 For example:  
 `darkmode_run_day="bash /path/to/switch.sh light"`  
 `darkmode_run_night="bash /path/to/switch.sh dark"` 
+
+And finally, if you are using --waybar mode you may set the icon display for that here.  
+`status_icon=""`
 
 
 The timing of wallpaper changes is also configurable with human-readable relative time statements, if you can make sense of the bash. By default, most of the day/night is represented with a single wallpaper image, but then there is a flurry of activity within 1.5 hours of both sunrise/sunset.
@@ -107,6 +112,9 @@ Clear! Use this to clear the cache files. Call this after any configuration chan
 Time! Want to see what will happen later today? This option will set a custom time so you can see what your wallpaper will look like then. It must be in HH:MM format. (-t 06:12)  
 `./sunpaper.sh -t HH:MM`
 
+Waybar! Use Waybar? Turn on this option to display an icon in your statusbar and the full sun times report as a tooltip (more details below).  
+`./sunpaper.sh --waybar`
+
 
 ## Set it to run automatically
 
@@ -114,13 +122,26 @@ Ideally, the script is called from something with an interval of 60 seconds. Tha
 
 **As a waybar module**
 
-Add to waybar/config
+![Waybar Tooltip](screenshots/waybar.jpg)
+
+Add to waybar/config:
+
+with a status bar icon and sun time report on tooltip as shown above:
 ```
-"custom/sunpaper":{
+"custom/sunpaper": {
+  "exec": "/path/to/sunpaper.sh --waybar",
+  "interval": 60,
+  "return-type": "json"
+}
+```
+
+or to just run quietly with nothing shown on the bar
+```
+"custom/sunpaper": {
   "exec": "/path/to/sunpaper.sh", 
-  "interval": 60
+  "interval": 60,
   "tooltip": false
-},
+}
 ```
 
 **As a i3blocks module**
@@ -200,4 +221,7 @@ The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linu
 
 ## Disclaimers
 
-Wallpaper images are not mine, they come from Apple Big Sur.
+Wallpaper images are not mine.
+
+Apple: The-Beach, The-Cliffs, The-Lake, The-Desert
+Louis Coyle: Lakeside
