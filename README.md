@@ -10,8 +10,14 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 - [x] Sets day/night wallpaper with 3 additional transitions for each sunrise/sunset
 - [x] 4 wallpaper themes to choose from (source: Apple Big-Sur)
 - [x] Darkmode trigger to run external script at day/night
+
+## TODO
+
 - [ ] New original content FOSS wallpaper themes
 - [ ] Statusbar mode to display icon and on/off switch in swaybar/waybar/i3bar/i3blocks etc.
+
+
+## Readme Contents
 
 [Dependencies](#dependencies)  
 [Install](#install)  
