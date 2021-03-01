@@ -10,7 +10,7 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 - [x] Sets day/night wallpaper with 3 additional transitions for each sunrise/sunset
 - [x] 5 wallpaper themes to choose from (sources: Apple Big-Sur & Louis Coyle's Lakeside 2019)
 - [x] Darkmode trigger to run external script at day/night
-- [x] Waybar mode to display icon and sun time report on tooltip.
+- [x] Waybar mode to display icon and sun time report on tooltip
 
 ## TODO
 
@@ -36,7 +36,7 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 2. [wallutils](https://github.com/xyproto/wallutils) (for `setwallpaper`)
 3. [Font Awesome](https://fontawesome.com) (optionally, for waybar status icon)
 
-Make sure these utilies are already installed. Depending on your distro they may be available within community repositories. If not, these are both pretty easy to build from github source.
+Make sure these utilities are already installed. Depending on your distro they may be available within community repositories. If not, these are both pretty easy to build from github source.
 
 
 ## Install
@@ -120,9 +120,10 @@ Waybar! Use Waybar? Turn on this option to display an icon in your statusbar and
 
 Ideally, the script is called from something with an interval of 60 seconds. That's why statusbars are easy choices, but there are many other options.
 
-**As a waybar module**
-
 ![Waybar Tooltip](screenshots/waybar.jpg)
+
+
+**As a waybar module**
 
 Add to waybar/config:
 
@@ -144,6 +145,7 @@ or to just run quietly with nothing shown on the bar
 }
 ```
 
+
 **As a i3blocks module**
 
 Add to i3blocks.conf
@@ -153,15 +155,20 @@ command=/path/to/sunpaper.sh
 interval=60
 ```
 
+
 **As a cron job**
 
 [Crontab setup to call a script every minute](https://linuxhint.com/run_cron_job_every_minute/)
+
 
 **As a systemd service**
 
 (thanks to /u/Dave77459 for sharing his systemd setup)
 
-If you try this you'll obviously need to adjust the paths below for your particular system. I had some trouble getting setwallpaper to recognize my environment properly, so you could also try replacing the lines in the sunpaper.sh script with setwallpaper to whatever cli wallpaper changer your WM prefers.
+If you try this you'll obviously need to adjust the paths below for your particular system. 
+
+> Note: setwallpaper uses a lot of environment variables to decide how to best set your paper -- so if things aren't working out of the box, you may need to fine-tune your override.conf for your specific setup.
+
 
 /etc/systemd/system/sunpaper.timer
 ```
@@ -223,5 +230,5 @@ The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linu
 
 Wallpaper images are not mine.
 
-Apple: The-Beach, The-Cliffs, The-Lake, The-Desert
-Louis Coyle: Lakeside
+Apple: The-Beach, The-Cliffs, The-Lake, The-Desert  
+Louis Coyle: Lakeside  
