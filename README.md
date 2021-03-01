@@ -48,9 +48,9 @@ Make sure these utilities are already installed. Depending on your distro they m
 1. put sunpaper.sh wherever you want it.
 2. make it executable:`chmod +x sunpaper.sh`
 3. put the wallpaper folders from sunpaper/images/ wherever you want them.
-4. edit sunpaper.sh to set some configuration options (see below)
-5. test it out `./sunpaper.sh` (see below)
-6. automate it from waybar or i3blocks or cron etc (see below)
+4. edit sunpaper.sh to set some configuration options ([see below](#configure))
+5. test it out `./sunpaper.sh` ([see below](#test-it))
+6. automate it from a statusbar or cron or systemd etc ([see below](#set-it-to-run-automatically))
 
 
 ## Configure
