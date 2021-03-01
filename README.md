@@ -8,7 +8,7 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 
 - [x] Changes wallpaper based on the sun location where you are
 - [x] Sets day/night wallpaper with 3 additional transitions for each sunrise/sunset
-- [x] 5 wallpaper themes to choose from (sources: Apple Big-Sur & Louis Coyle's Lakeside 2019)
+- [x] 5 wallpaper themes to choose from ([previews](#wallpaper-previews))
 - [x] Darkmode trigger to run external script at day/night
 - [x] Waybar mode to display icon and sun time report on tooltip
 
@@ -27,7 +27,7 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 [Set it to run automatically](#set-it-to-run-automatically)  
 [Why Sunpaper](#why-sunpaper)  
 [Known Issues](#known-issues)  
-[Disclaimers](#disclaimers)  
+[Wallpaper Previews](#wallpaper-previews)  
 
 
 ## Dependencies
@@ -226,9 +226,24 @@ The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linu
 - Fedora - community repo has older versions of both sunwait and wallutils. Unfortunately, you'll need to build them both from their github sources.
 
 
-## Disclaimers
+## Wallpaper Previews
 
-Wallpaper images are not mine.
+Wallpaper images are not mine, they are from the following sources:
 
-Apple: The-Beach, The-Cliffs, The-Lake, The-Desert  
-Louis Coyle: Lakeside  
+*From Apple Big Sur:*
+
+6016x6016 
+
+|The Desert|The Lake|The Cliffs|The Beach|
+|--|--|--|--|
+|![Thumbnail](screenshots/the-desert-200.jpg)|![Thumbnail](screenshots/the-lake-200.jpg)|![Thumbnail](screenshots/the-cliffs-200.jpg)|![Thumbnail](screenshots/the-beach-200.jpg)|
+
+
+*From Louis Coyle:*  
+[https://dribbble.com/louiscoyle](https://dribbble.com/louiscoyle)
+
+7680x3214
+
+|Lakeside|
+|--|
+|![Thumbnail](screenshots/lakeside-200.jpg)|
