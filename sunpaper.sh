@@ -59,6 +59,13 @@ status_icon=""
 
 ##CONFIG OPTIONS END----------------------------
 
+# Check for external config file
+CONFIG_FILE=$HOME/.config/sunpaper/config
+if [ -f "$CONFIG_FILE" ];then
+    . "$CONFIG_FILE"
+fi
+
+
 version="3.02"
 
 #Trim any trailing slashes from paths
