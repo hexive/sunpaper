@@ -59,7 +59,7 @@ status_icon=""
 
 ##CONFIG OPTIONS END----------------------------
 
-version="3.01"
+version="3.02"
 
 #Trim any trailing slashes from paths
 wallpaperPath=$(echo $wallpaperPath | sed 's:/*$::')
@@ -156,15 +156,15 @@ show_suntimes(){
 
 show_suntimes_waybar(){
 
-#sunpaper calls itself to get -r report lines
-sunpaper_self=`realpath $0`
-output=$(bash $sunpaper_self -r)
+    #sunpaper calls itself to get -r report lines
+    sunpaper_self=`realpath $0`
+    output=$(bash $sunpaper_self -r)
 
-tooltip="$(echo "$output" | sed -z 's/\n/\\n/g')"
-tooltip=${tooltip::-2}
+    tooltip="$(echo "$output" | sed -z 's/\n/\\n/g')"
+    tooltip=${tooltip::-2}
 
-echo "{\"text\":\""$status_icon"\", \"tooltip\":\""$tooltip"\"}"
-exit 0
+    echo "{\"text\":\""$status_icon"\", \"tooltip\":\""$tooltip"\"}"
+    exit 0
 }
 
 ## Wallpaper Display Logic
@@ -266,27 +266,20 @@ EOF
 
 local_darkmode(){
 
-    #TODO: have sunwait take $currenttime so this will change with testing values
-    # sunwait has no time flag -- so this wont work  
-    #d_ay=$(date -d "@$currenttime" +%d)
-    #m_onth=$(date -d "@$currenttime" +%m)
-    #y_ear=$(date -d "@$currenttime" +%y)
-    #sun_poll=$(sunwait d $d_ay m $m_onth y $y_ear poll civil $latitude $longitude)
-    
-    # Workaround for missing sunwait time flag by calculating own DAY/NIGHT manually for -t
-    if [ "$time" ]; then
-        if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunset" ]; then
-            sun_poll="DAY"
-        else
-            sun_poll="NIGHT"
-        fi
+    # this if/else replaces sunwait poll function which unfortunately cannot 
+    # be evaulated by different $t_ime so won't work with our --time testing flag
+    ### sun_poll=$(sunwait d $d_ay m $m_onth y $y_ear poll civil $latitude $longitude)
+    #
+    # TODO: allow for darkmode time offsets
+
+    if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunset" ]; then
+        sun_poll="DAY"
     else
-        sun_poll=$(sunwait poll civil $latitude $longitude)
+        sun_poll="NIGHT"
     fi
-    # End Workaround
 
     if [ "$sun_poll" == "DAY" ] && [ ! -f "$cacheFileDay" ];then
-        eval "$darkmode_run_day" 
+        eval "$darkmode_run_day"
         touch $cacheFileDay
         rm $cacheFileNight 2> /dev/null || true
 
@@ -334,14 +327,16 @@ while :; do
 done
 
 # Start Calling Functions
-set_cache
 get_currenttime
 get_suntimes
-set_paper
 
 if [ "$darkmode_enable" == "true" ]; then
     local_darkmode
 fi
+
+set_cache
+set_paper
+
 if [ "$waybar_enable" == "true" ]; then
     show_suntimes_waybar
 fi
