@@ -123,7 +123,7 @@ Ideally, the script is called from something with an interval of 60 seconds. Tha
 ![Waybar Tooltip](screenshots/waybar.jpg)
 
 
-##as a waybar module
+### as a waybar module
 
 Add to waybar/config:
 
@@ -149,7 +149,7 @@ Add this line to your startup applications in your main sway config file.
 `exec /path/to/sunpaper.sh -c && /path/to/sunpaper.sh`
 
 
-##as a i3blocks module
+### as a i3blocks module
 
 Add to i3blocks.conf
 ```
@@ -162,12 +162,12 @@ Add this line to your startup applications in your main i3 config file.
 `exec /path/to/sunpaper.sh -c && /path/to/sunpaper.sh`
 
 
-##as a cron job
+### as a cron job
 
 [Crontab setup to call a script every minute](https://linuxhint.com/run_cron_job_every_minute/)
 
 
-##as a systemd service
+### as a systemd service
 
 (thanks to /u/Dave77459 for sharing his systemd setup)
 
@@ -236,14 +236,14 @@ The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linu
 
 Wallpaper images are not mine, they are from the following sources:
 
-**From Apple Big Sur (6016x6016)**
+### from Apple Big Sur (6016x6016)
 
 |The Desert|The Lake|The Cliffs|The Beach|
 |--|--|--|--|
 |![Thumbnail](screenshots/the-desert-200.jpg)|![Thumbnail](screenshots/the-lake-200.jpg)|![Thumbnail](screenshots/the-cliffs-200.jpg)|![Thumbnail](screenshots/the-beach-200.jpg)|
 
 
-**From Louis Coyle: (7680x3214)**  
+### from Louis Coyle: (7680x3214) 
 [https://dribbble.com/louiscoyle](https://dribbble.com/louiscoyle)
 
 
