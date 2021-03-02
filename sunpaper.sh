@@ -40,7 +40,7 @@ cachePath="$HOME/.cache"
 # This feature is disabled by default but you can enable
 # it here like:
 # darkmode_enable="true"
-darkmode_enable="false"
+darkmode_enable="true"
 
 # And if darkmode is enabled, use these two lines
 # to set the the external command to run on day / night.
@@ -130,19 +130,35 @@ get_suntimes(){
     twilightLate=$(date -d "$get_sunset 15 minutes ago" +"%s");
     sunset=$(date -d "$get_sunset" +"%s");
 
-    poll=$(sunwait poll civil $latitude $longitude)
+}
+
+get_sunpoll(){
+
+    # ONLY USED FOR DARKMODE
+    #
+    # this if/else replaces sunwait poll function which unfortunately cannot 
+    # be evaulated by different $t_ime so won't work with our --time testing flag
+    ### sun_poll=$(sunwait d $d_ay m $m_onth y $y_ear poll civil $latitude $longitude)
+    #
+    # TODO: allow for darkmode time offsets
+
+    if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunset" ]; then
+        sun_poll="DAY"
+    else
+        sun_poll="NIGHT"
+    fi
 }
 
 show_suntimes(){
 
     #echo "--------------"
     echo "Sunpaper: $version"
+    echo ""
+    echo "Current Time: "`date -d "@$currenttime" +"%H:%M"`
     echo "Current Paper: $currentpaper.jpg"
     if [ "$darkmode_enable" == "true" ]; then
-        echo "Darkmode Status: $poll"
+        echo "Darkmode Status: $sun_poll"
     fi
-    echo ""
-    echo `date -d "@$currenttime" +"%H:%M"` "- Current Time"
     echo ""
     echo `date -d "@$sunrise" +"%H:%M"` "- Sunrise (2.jpg)"
     echo `date -d "@$sunriseMid" +"%H:%M"` "- Sunrise Mid (3.jpg)"
@@ -266,17 +282,7 @@ EOF
 
 local_darkmode(){
 
-    # this if/else replaces sunwait poll function which unfortunately cannot 
-    # be evaulated by different $t_ime so won't work with our --time testing flag
-    ### sun_poll=$(sunwait d $d_ay m $m_onth y $y_ear poll civil $latitude $longitude)
-    #
-    # TODO: allow for darkmode time offsets
-
-    if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunset" ]; then
-        sun_poll="DAY"
-    else
-        sun_poll="NIGHT"
-    fi
+    get_sunpoll
 
     if [ "$sun_poll" == "DAY" ] && [ ! -f "$cacheFileDay" ];then
         eval "$darkmode_run_day"
@@ -298,9 +304,10 @@ while :; do
             exit         
         ;;
         -r|--report) 
-	        set_cache
+	    set_cache
             get_currenttime
             get_suntimes
+            get_sunpoll
             show_suntimes  
             exit             
         ;;
