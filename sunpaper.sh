@@ -6,9 +6,7 @@
 #2.28 - new darkmode feature
 #3.01 - new waybar feature
 
-# Support for a config file
-# Change it at $HOME/.config/sunpaper/config where a config file is generated on first run
-source $HOME/.config/sunpaper/config
+# Change the config file at $HOME/.config/sunpaper/config where a config file is generated on first run
 
 
 create_config(){
@@ -72,6 +70,8 @@ if [ ! -e $HOME/.config/sunpaper/config ]; then
   create_config
 fi
 
+# Source config file
+source $HOME/.config/sunpaper/config
 
 version="3.02"
 
