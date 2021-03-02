@@ -6,6 +6,15 @@
 #2.28 - new darkmode feature
 #3.01 - new waybar feature
 
+# Support for a config file
+# Change it at $HOME/.config/sunpaper/config where a config file is generated on first run
+source $HOME/.config/sunpaper/config
+
+
+create_config(){
+
+  mkdir -p $HOME/.config/sunpaper
+  cat > $HOME/.config/sunpaper/config <<'EOF'
 ##CONFIG OPTIONS---------------------------------
 
 # This script has some testing functions that can be called
@@ -56,8 +65,13 @@ darkmode_run_night=""
 # Set the icon display for that here
 status_icon=""
 
-
 ##CONFIG OPTIONS END----------------------------
+EOF
+}
+if [ ! -e $HOME/.config/sunpaper/config ]; then
+  create_config
+fi
+
 
 version="3.02"
 
