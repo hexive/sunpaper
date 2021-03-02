@@ -294,6 +294,7 @@ local_darkmode(){
         eval $darkmode_run_night
         touch $cacheFileNight
         rm $cacheFileDay 2> /dev/null || true
+
     fi
 }
 
