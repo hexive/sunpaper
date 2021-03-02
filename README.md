@@ -34,7 +34,7 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 
 1. [sunwait](https://github.com/risacher/sunwait)
 2. [wallutils](https://github.com/xyproto/wallutils) (for `setwallpaper`)
-3. [Font Awesome](https://fontawesome.com) (optionally, for waybar status icon)
+3. [font awesome](https://fontawesome.com) (optionally, for waybar status icon)
 
 Make sure these utilities are already installed. Depending on your distro they may be available within community repositories. If not, these are both pretty easy to build from github source.
 
@@ -123,7 +123,7 @@ Ideally, the script is called from something with an interval of 60 seconds. Tha
 ![Waybar Tooltip](screenshots/waybar.jpg)
 
 
-**As a waybar module**
+##as a waybar module
 
 Add to waybar/config:
 
@@ -146,10 +146,10 @@ or to just run quietly with nothing shown on the bar
 ```
 
 Add this line to your startup applications in your main sway config file.    
-`exec_always /path/to/sunpaper.sh -c && /path/to/sunpaper.sh`
+`exec /path/to/sunpaper.sh -c && /path/to/sunpaper.sh`
 
 
-**As a i3blocks module**
+##as a i3blocks module
 
 Add to i3blocks.conf
 ```
@@ -159,15 +159,15 @@ interval=60
 ```
 
 Add this line to your startup applications in your main i3 config file.  
-`exec_always /path/to/sunpaper.sh -c && /path/to/sunpaper.sh`
+`exec /path/to/sunpaper.sh -c && /path/to/sunpaper.sh`
 
 
-**As a cron job**
+##as a cron job
 
 [Crontab setup to call a script every minute](https://linuxhint.com/run_cron_job_every_minute/)
 
 
-**As a systemd service**
+##as a systemd service
 
 (thanks to /u/Dave77459 for sharing his systemd setup)
 
