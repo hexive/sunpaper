@@ -145,6 +145,9 @@ or to just run quietly with nothing shown on the bar
 }
 ```
 
+Add this line to your startup applications in your main sway config file.    
+`exec_always /path/to/sunpaper.sh -c && /path/to/sunpaper.sh`
+
 
 **As a i3blocks module**
 
@@ -154,6 +157,9 @@ Add to i3blocks.conf
 command=/path/to/sunpaper.sh
 interval=60
 ```
+
+Add this line to your startup applications in your main i3 config file.  
+`exec_always /path/to/sunpaper.sh -c && /path/to/sunpaper.sh`
 
 
 **As a cron job**
