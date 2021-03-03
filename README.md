@@ -27,7 +27,7 @@ It works with several modified [dynamic themes](#wallpaper-previews) to change y
 Sunpaper was developed to replicate the behavior of Apple Dynamic Desktop wallpapers. The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linux machines. There are many other timed wallpaper utilities out there, but they all seemed to be using static timetables for the wallpaper changes. I wanted something that could be directly tied to the sunrise/sunset times locally and adapt to changes over the year without any fiddling on my part.
 
 
-## Documentation: [Install](https://github.com/hexive/sunpaper/wiki/1-Install) [Configure](https://github.com/hexive/sunpaper/wiki/2-Configure) [Test](https://github.com/hexive/sunpaper/wiki/3-Test-it) [Automate](https://github.com/hexive/sunpaper/wiki/4-Set-it-to-run-automatically) [Wiki](https://github.com/hexive/sunpaper/wiki)
+## Documentation: [[Install]](https://github.com/hexive/sunpaper/wiki/1-Install) [[Configure]](https://github.com/hexive/sunpaper/wiki/2-Configure) [[Test]](https://github.com/hexive/sunpaper/wiki/3-Test-it) [[Automate]](https://github.com/hexive/sunpaper/wiki/4-Set-it-to-run-automatically) [[Wiki]](https://github.com/hexive/sunpaper/wiki)
 
 
 ## Wallpaper Previews
