@@ -1,29 +1,28 @@
 #!/bin/bash
 
-#Sunpaper Version History
-#2.26 - initial commit
-#2.27 - functionize & option flags
-#2.28 - new darkmode feature
-#3.01 - new waybar feature
-
 ##CONFIG OPTIONS---------------------------------
 
-# This script has some testing functions that can be called
-# with option flags. Check sunpaper.sh -h 
+# This script also has some testing functions that 
+# can be called with option flags. 
+# Check sunpaper.sh -h 
+
+#################################################
+# BASIC CONFIGURATION
+#################################################
 
 # Set your local latitude and longitude for sun calculations
 latitude="38.9072N"
 longitude="77.0369W"
-
-# Set how you want your wallpaper displayed
-# stretch | center | tile | scale | zoom | fill
-wallpaperMode="scale"
 
 # Set full path to the wallpaper theme folder
 # Theme folder names:
 # Apple: The-Beach The-Cliffs The-Lake The-Desert
 # Louis Coyle: Lakeside
 wallpaperPath="$HOME/sunpaper/images/The-Desert"
+
+# Set how you want your wallpaper displayed
+# stretch | center | tile | scale | zoom | fill
+wallpaperMode="scale"
 
 # Sunpaper writes some cache files to keep track of 
 # persistent variables.
@@ -35,12 +34,37 @@ wallpaperPath="$HOME/sunpaper/images/The-Desert"
 # it as the default.
 cachePath="$HOME/.cache"
 
+
+# The rest of these are optional configuration modes
+#
+#################################################
+# PYWAL MODE 
+# requires pywal (https://github.com/dylanaraps/pywal)
+#################################################
+# Sunpaper can call pywal to set a new color scheme
+# on each wallpaper image change. 
+# pywalmode_enable="true"
+pywalmode_enable="false"
+
+# If you like to use pywal with specific options 
+# you may set them here. 
+#
+# NOTE pywal is not used to set the wallpaper 
+# images, so you don't need to worry about those options.
+#
+#pywal_options="-l -e --backend [colorthief]"
+pywal_options=""
+
+
+#################################################
+# DARKMODE
+#################################################
 # You may use script to trigger a darkmode on your desktop
 # or any other actions you want to preform on day / night.
 # This feature is disabled by default but you can enable
 # it here like:
 # darkmode_enable="true"
-darkmode_enable="true"
+darkmode_enable="false"
 
 # And if darkmode is enabled, use these two lines
 # to set the the external command to run on day / night.
@@ -49,24 +73,49 @@ darkmode_enable="true"
 darkmode_run_day=""
 darkmode_run_night=""
 
+
+#################################################
+# WAYBAR MODE
+#################################################
 # Sunpaper has a special mode for use with sway/waybar 
 # It displays an icon and sun times report as a tooltip.
-# sunpaper.sh --waybar
-# 
+# Call it with a flag sunpaper.sh --waybar
+
 # Set the icon display for that here
 status_icon=""
 
 
-##CONFIG OPTIONS END----------------------------
+#################################################
+# EXTERNAL CONFIGURATION
+#################################################
+# Congratulations you've found a super secret undocumented
+# experimental feature. If you prefer to have an external 
+# configuration file, then simply copy everything above this 
+# section and put it in ~/.config/sunpaper/config
+#
+# Leave everything here in place as it is. Your config values
+# will overwrite these defaults.
+#
+# Just check back here if you you ever update the script for
+# any new config options.
+
+##CONFIG OPTIONS END---------------------------- 
+
+
+#Sunpaper Version History
+#2.26 - initial commit
+#2.27 - functionize & option flags
+#2.28 - new darkmode feature
+#3.01 - new waybar feature
+#3.03 - pywall integration
+
+version="3.03"
 
 # Check for external config file
 CONFIG_FILE=$HOME/.config/sunpaper/config
 if [ -f "$CONFIG_FILE" ];then
     . "$CONFIG_FILE"
 fi
-
-
-version="3.02"
 
 #Trim any trailing slashes from paths
 wallpaperPath=$(echo $wallpaperPath | sed 's:/*$::')
@@ -202,61 +251,69 @@ show_suntimes_waybar(){
 
 set_paper(){
 
-    if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
-        
-        if [[ $currentpaper != 2 ]]; then
-        setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
-        sed -i s/./2/g $cacheFileWall
-      fi
+if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
+    
+    if [[ $currentpaper != 2 ]]; then
+    setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
+    sed -i s/./2/g $cacheFileWall
+    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/2.jpg $pywal_options
+  fi
 
-    elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate" ]; then
-      
-        if [[ $currentpaper != 3 ]]; then
-        setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
-        sed -i s/./3/g $cacheFileWall
-      fi
+elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate" ]; then
+  
+    if [[ $currentpaper != 3 ]]; then
+    setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
+    sed -i s/./3/g $cacheFileWall
+    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/3.jpg $pywal_options
+  fi
 
-    elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]; then
-       
-        if [[ $currentpaper != 4 ]]; then
-        setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
-        sed -i s/./4/g $cacheFileWall
-      fi
+elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]; then
+   
+    if [[ $currentpaper != 4 ]]; then
+    setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
+    sed -i s/./4/g $cacheFileWall
+    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/4.jpg $pywal_options
+  fi
 
-    elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly" ]; then
-        
-        if [[ $currentpaper != 5 ]]; then
-        setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
-        sed -i s/./5/g $cacheFileWall
-      fi
+elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly" ]; then
+    
+    if [[ $currentpaper != 5 ]]; then
+    setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
+    sed -i s/./5/g $cacheFileWall
+    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/5.jpg $pywal_options
+  fi
 
-    elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightMid" ]; then
-        
-        if [[ $currentpaper != 6 ]]; then
-        setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
-        sed -i s/./6/g $cacheFileWall
-    	fi
+elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightMid" ]; then
+    
+    if [[ $currentpaper != 6 ]]; then
+    setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
+    sed -i s/./6/g $cacheFileWall
+    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/6.jpg $pywal_options
+	fi
 
-    elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLate" ]; then
-       
-        if [[ $currentpaper != 7 ]]; then
-        setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
-        sed -i s/./7/g $cacheFileWall  
-        fi
-
-    elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ]; then
-
-    	if [[ $currentpaper != 8 ]]; then
-        	setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
-        	sed -i s/./8/g $cacheFileWall
-    	fi
-
-    else 
-    	if [[ $currentpaper != 1 ]]; then
-    	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
-    	sed -i s/./1/g $cacheFileWall
-    	fi
+elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLate" ]; then
+   
+    if [[ $currentpaper != 7 ]]; then
+    setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
+    sed -i s/./7/g $cacheFileWall  
+    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/7.jpg $pywal_options
     fi
+
+elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ]; then
+
+	if [[ $currentpaper != 8 ]]; then
+    setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
+    sed -i s/./8/g $cacheFileWall
+    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/8.jpg $pywal_options
+	fi
+
+else 
+	if [[ $currentpaper != 1 ]]; then
+	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
+	sed -i s/./1/g $cacheFileWall
+    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/2.jpg $pywal_options
+	fi
+fi
 }
 
 show_help(){
@@ -332,7 +389,7 @@ while :; do
         fi         
         ;;
         -w|--waybar) 
-            waybar_enable="true"
+            waybarmode_enable="true"
             shift             
         ;;
         *) break
@@ -351,6 +408,6 @@ fi
 set_cache
 set_paper
 
-if [ "$waybar_enable" == "true" ]; then
+if [ "$waybarmode_enable" == "true" ]; then
     show_suntimes_waybar
 fi

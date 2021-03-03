@@ -9,6 +9,7 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 - [x] Changes wallpaper based on the sun location where you are
 - [x] Sets day/night wallpaper with 3 additional transitions for each sunrise/sunset
 - [x] 5 wallpaper themes to choose from ([previews](#wallpaper-previews))
+- [x] Pywal mode to set color schemes with each wallpaper change
 - [x] Darkmode trigger to run external script at day/night
 - [x] Waybar mode to display icon and sun time report on tooltip
 
@@ -34,7 +35,11 @@ Sunpaper is a bash script to change wallpaper based on your local sunrise and su
 
 1. [sunwait](https://github.com/risacher/sunwait)
 2. [wallutils](https://github.com/xyproto/wallutils) (for `setwallpaper`)
-3. [font awesome](https://fontawesome.com) (optionally, for waybar status icon)
+
+**(Optionally)**
+
+3. [pywal](https://github.com/dylanaraps/pywal) (optionally, for pywal color scheme changes)
+4. [font awesome](https://fontawesome.com) (optionally, for waybar status icon)
 
 Make sure these utilities are already installed. Depending on your distro they may be available within community repositories. If not, these are both pretty easy to build from github source.
 
@@ -57,6 +62,8 @@ Make sure these utilities are already installed. Depending on your distro they m
 
 Sunpaper takes a few configuration options available by editing the sunpaper.sh file directly:
 
+**Basic Configuration**
+
 Set your latitude and longitude for your current location. If you aren't sure you can get these numbers from places like [latlong.net](https://www.latlong.net/) or even google maps.
 
 Make sure your latitude number ends with N  
@@ -65,15 +72,29 @@ Make sure your latitude number ends with N
 and longitude ends with W  
 `longitude="77.0369W"`
 
+Set the full path to the location of the sunpaper/images:  
+`wallpaperPath="$HOME/sunpaper/images/The-Desert"`
+
 Set what mode your wallpaper is displayed.  
 Options include: stretch | center | tile | scale | zoom | fill  
 `wallpaperMode="scale"`
 
-Set the full path to the location of the sunpaper/images:  
-`wallpaperPath="$HOME/sunpaper/images/The-Desert"`
-
 Sunpaper writes some cache files to keep track of persistent variables. Set a different location for these or just leave it as the default.
 `cachePath="$HOME/.cache"`
+
+**Pywal Mode**
+
+Sunpaper can call pywal to set a new color scheme based on the wallpaper for each image change. Enable this mode with:   
+`pywalmode_enable="true"`
+
+If you like to use pywal with specific options you may set them here:  
+`pywal_options=""`
+
+for example:  
+`pywal_options="-l -e --backend [colorthief]"`
+
+
+**Darkmode**
 
 You may use the script to trigger a darkmode on your desktop or any other actions you want to preform on day / night. This feature is disabled by default but you can enable it like:  
 `darkmode_enable="true"`
@@ -86,11 +107,16 @@ For example:
 `darkmode_run_day="bash /path/to/switch.sh light"`  
 `darkmode_run_night="bash /path/to/switch.sh dark"` 
 
+
+**Waybar Mode**
+
 And finally, if you are using --waybar mode you may set the icon display for that here.  
 `status_icon=""`
 
 
-The timing of wallpaper changes is also configurable with human-readable relative time statements, if you can make sense of the bash. By default, most of the day/night is represented with a single wallpaper image, but then there is a flurry of activity within 1.5 hours of both sunrise/sunset.
+**Manual Offsets**
+
+The timing of wallpaper changes is also configurable with human-readable relative time statements, if you can make sense of the bash--take a look at the `get_suntimes()` function. By default, most of the day/night is represented with a single wallpaper image, but then there is a flurry of activity within 1.5 hours of both sunrise/sunset.
 
 
 ## Test it
