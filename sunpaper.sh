@@ -370,12 +370,12 @@ local_darkmode(){
     get_sunpoll
 
     if [ "$sun_poll" == "DAY" ] && [ ! -f "$cacheFileDay" ];then
-        eval "$darkmode_run_day"
+        exec `$darkmode_run_day`
         touch $cacheFileDay
         rm $cacheFileNight 2> /dev/null || true
 
     elif [ "$sun_poll" == "NIGHT" ] && [ ! -f "$cacheFileNight" ];then
-        eval "$darkmode_run_night"
+        exec `$darkmode_run_night`
         touch $cacheFileNight
         rm $cacheFileDay 2> /dev/null || true
 
