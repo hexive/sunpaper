@@ -49,11 +49,19 @@ pywalmode_enable="false"
 # If you like to use pywal with specific options 
 # you may set them here. 
 #
-# NOTE pywal is not used to set the wallpaper 
-# images, so you don't need to worry about those options.
+# NOTE Sunpaper does not use pywal to set the wallpaper 
+# images, so those options will be ignored.
 #
-#pywal_options="-l -e --backend [colorthief]"
+# Set pywal options that will always be used
+# for example: 
+#pywal_options="-e --backend [colorthief]"
 pywal_options=""
+
+# Set pywal options that will be used only during
+# the DAY or NIGHT for example:
+#pywal_options_day="-l"
+pywal_options_day=""
+pywal_options_night=""
 
 
 #################################################
@@ -190,8 +198,6 @@ get_suntimes(){
 
 get_sunpoll(){
 
-    # ONLY USED FOR DARKMODE
-    #
     # this if/else replaces sunwait poll function which unfortunately cannot 
     # be evaulated by different $t_ime so won't work with our --time testing flag
     ### sun_poll=$(sunwait d $d_ay m $m_onth y $y_ear poll civil $latitude $longitude)
@@ -256,7 +262,7 @@ if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; th
     if [[ $currentpaper != 2 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
     sed -i s/./2/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/2.jpg $pywal_options
+    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/2.jpg $pywal_options_combined`
   fi
 
 elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate" ]; then
@@ -264,7 +270,7 @@ elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate"
     if [[ $currentpaper != 3 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
     sed -i s/./3/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/3.jpg $pywal_options
+    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/3.jpg $pywal_options_combined`
   fi
 
 elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]; then
@@ -272,7 +278,7 @@ elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]
     if [[ $currentpaper != 4 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
     sed -i s/./4/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/4.jpg $pywal_options
+    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/4.jpg $pywal_options_combined`
   fi
 
 elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly" ]; then
@@ -280,7 +286,7 @@ elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly"
     if [[ $currentpaper != 5 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
     sed -i s/./5/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/5.jpg $pywal_options
+    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/5.jpg $pywal_options_combined`
   fi
 
 elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightMid" ]; then
@@ -288,7 +294,7 @@ elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightM
     if [[ $currentpaper != 6 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
     sed -i s/./6/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/6.jpg $pywal_options
+    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/6.jpg $pywal_options_combined`
 	fi
 
 elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLate" ]; then
@@ -296,7 +302,7 @@ elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLat
     if [[ $currentpaper != 7 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
     sed -i s/./7/g $cacheFileWall  
-    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/7.jpg $pywal_options
+    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/7.jpg $pywal_options_combined`
     fi
 
 elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ]; then
@@ -304,14 +310,14 @@ elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ];
 	if [[ $currentpaper != 8 ]]; then
     setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
     sed -i s/./8/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/8.jpg $pywal_options
+    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/8.jpg $pywal_options_combined`
 	fi
 
 else 
 	if [[ $currentpaper != 1 ]]; then
 	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
 	sed -i s/./1/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec wal -n -q -i $wallpaperPath/2.jpg $pywal_options
+    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/1.jpg $pywal_options_combined`
 	fi
 fi
 }
@@ -342,6 +348,21 @@ Sunpaper Option Flags (flags cannot be combined)
                 as a tooltip.
 
 EOF
+}
+
+pywal_construct(){
+
+    get_sunpoll
+
+    if [ "$sun_poll" == "DAY" ];then
+        
+        pywal_options_combined="$pywal_options $pywal_options_day"
+
+    elif [ "$sun_poll" == "NIGHT" ];then
+        
+        pywal_options_combined="$pywal_options $pywal_options_night"
+
+    fi
 }
 
 local_darkmode(){
@@ -400,6 +421,10 @@ done
 # Start Calling Functions
 get_currenttime
 get_suntimes
+
+if [ "$pywalmode_enable" == "true" ]; then
+    pywal_construct
+fi
 
 if [ "$darkmode_enable" == "true" ]; then
     local_darkmode
