@@ -378,7 +378,6 @@ pywal_construct(){
         pywal_options_combined="-n -q $pywal_options_image $pywal_options $pywal_options_night"
 
     fi
-    echo "$pywal_options_combined"
     wal $pywal_options_combined
 }
 
