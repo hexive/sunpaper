@@ -225,9 +225,7 @@ show_suntimes(){
     echo ""
     echo "Current Time: "`date -d "@$currenttime" +"%H:%M"`
     echo "Current Paper: $currentpaper.jpg"
-    if [ "$darkmode_enable" == "true" ]; then
-        echo "Darkmode Status: $sun_poll"
-    fi
+    [[ "$darkmode_enable" == "true" ]] && echo "Darkmode Status: $sun_poll"
     echo ""
     echo `date -d "@$sunrise" +"%H:%M"` "- Sunrise (2.jpg)"
     echo `date -d "@$sunriseMid" +"%H:%M"` "- Sunrise Mid (3.jpg)"
@@ -255,7 +253,7 @@ show_suntimes_waybar(){
 ## Wallpaper Display Logic
 #1.jpg - after sunset until sunrise (sunset-sunrise)
 #2.jpg - sunrise for 15 min (sunrise - sunriseMid)
-#3.jpg - 15 min after sunrise for 15 min (sunriseEarly-sunriseLate)
+#3.jpg - 15 min after sunrise for 15 min (sunriseMid-sunriseLate)
 #4.jpg - 30 min after sunrise for 1 hour (sunriseLate-dayLight)
 #5.jpg - day light between sunrise and sunset events (dayLight-twilightEarly)
 #6.jpg - 1.5 hours before sunset for 1 hour (twilightEarly-twilightMid)
@@ -380,7 +378,7 @@ pywal_construct(){
         pywal_options_combined="-n -q $pywal_options_image $pywal_options $pywal_options_night"
 
     fi
-
+    echo "$pywal_options_combined"
     wal $pywal_options_combined
 }
 
@@ -408,7 +406,7 @@ while :; do
             exit         
         ;;
         -r|--report) 
-	    set_cache
+	        set_cache
             get_currenttime
             get_suntimes
             get_sunpoll
@@ -424,7 +422,7 @@ while :; do
             time=$2
             shift
         else
-            echo 'ERROR: "--time" requires format of 06:10'
+            echo 'ERROR: "--time" requires format of HH:MM'
             exit
         fi         
         ;;
@@ -440,13 +438,12 @@ done
 # Start Calling Functions
 get_currenttime
 get_suntimes
+set_cache
+set_paper
 
 if [ "$darkmode_enable" == "true" ]; then
     local_darkmode
 fi
-
-set_cache
-set_paper
 
 if [ "$waybarmode_enable" == "true" ]; then
     show_suntimes_waybar
