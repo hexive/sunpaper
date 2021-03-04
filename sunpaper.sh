@@ -38,33 +38,6 @@ cachePath="$HOME/.cache"
 # The rest of these are optional configuration modes
 #
 #################################################
-# PYWAL MODE 
-# requires pywal (https://github.com/dylanaraps/pywal)
-#################################################
-# Sunpaper can call pywal to set a new color scheme
-# on each wallpaper image change. 
-# pywalmode_enable="true"
-pywalmode_enable="false"
-
-# If you like to use pywal with specific options 
-# you may set them here. 
-#
-# NOTE Sunpaper does not use pywal to set the wallpaper 
-# images, so those options will be ignored.
-#
-# Set pywal options that will always be used
-# for example: 
-#pywal_options="-e --backend [colorthief]"
-pywal_options=""
-
-# Set pywal options that will be used only during
-# the DAY or NIGHT for example:
-#pywal_options_day="-l"
-pywal_options_day=""
-pywal_options_night=""
-
-
-#################################################
 # DARKMODE
 #################################################
 # You may use script to trigger a darkmode on your desktop
@@ -91,6 +64,40 @@ darkmode_run_night=""
 
 # Set the icon display for that here
 status_icon=""
+
+
+#################################################
+# PYWAL MODE 
+# requires pywal (https://github.com/dylanaraps/pywal)
+#################################################
+# Sunpaper can call pywal to set a new color scheme
+# on each wallpaper image change. 
+# pywalmode_enable="true"
+pywalmode_enable="false"
+
+# If you like to use pywal with specific options 
+# you may set them here. 
+#
+# NOTE Sunpaper does not use pywal to set the wallpaper 
+# images, so those options will be ignored.
+#
+# Set pywal options that will always be used
+# for example: 
+#pywal_options="-e --backend colorthief"
+pywal_options=""
+
+# Set pywal options that will be used only during
+# the DAY or NIGHT for example:
+#pywal_options_day="-l"
+pywal_options_day=""
+pywal_options_night=""
+
+# Some pywal options like themes would be in conflict
+# with setting colors by image. If you wish to use 
+# pywal theme colors instead, then switch these to false to 
+# disable pywal from setting colors by image.
+pywal_image_day="true"
+pywal_image_night="true"
 
 
 #################################################
@@ -260,65 +267,73 @@ set_paper(){
 if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
     
     if [[ $currentpaper != 2 ]]; then
-    setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
-    sed -i s/./2/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/2.jpg $pywal_options_combined`
-  fi
+        image=2
+        setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
+        sed -i s/./2/g $cacheFileWall
+        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
+    fi
 
 elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate" ]; then
   
     if [[ $currentpaper != 3 ]]; then
-    setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
-    sed -i s/./3/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/3.jpg $pywal_options_combined`
-  fi
+        image=3
+        setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
+        sed -i s/./3/g $cacheFileWall
+        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
+    fi
 
 elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]; then
    
     if [[ $currentpaper != 4 ]]; then
-    setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
-    sed -i s/./4/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/4.jpg $pywal_options_combined`
-  fi
+        image=4
+        setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
+        sed -i s/./4/g $cacheFileWall
+        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
+    fi
 
 elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly" ]; then
     
     if [[ $currentpaper != 5 ]]; then
-    setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
-    sed -i s/./5/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/5.jpg $pywal_options_combined`
-  fi
+        image=5
+        setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
+        sed -i s/./5/g $cacheFileWall
+        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
+    fi
 
 elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightMid" ]; then
     
     if [[ $currentpaper != 6 ]]; then
-    setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
-    sed -i s/./6/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/6.jpg $pywal_options_combined`
+        image=6
+        setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
+        sed -i s/./6/g $cacheFileWall
+        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
 	fi
 
 elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLate" ]; then
    
     if [[ $currentpaper != 7 ]]; then
-    setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
-    sed -i s/./7/g $cacheFileWall  
-    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/7.jpg $pywal_options_combined`
+        image=7
+        setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
+        sed -i s/./7/g $cacheFileWall  
+        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
 elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ]; then
 
 	if [[ $currentpaper != 8 ]]; then
-    setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
-    sed -i s/./8/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/8.jpg $pywal_options_combined`
+        image=8
+        setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
+        sed -i s/./8/g $cacheFileWall
+        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
 	fi
 
 else 
 	if [[ $currentpaper != 1 ]]; then
-	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
-	sed -i s/./1/g $cacheFileWall
-    [[ "$pywalmode_enable" == "true" ]] && exec `wal -n -q -i $wallpaperPath/1.jpg $pywal_options_combined`
-	fi
+        image=1
+    	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
+    	sed -i s/./1/g $cacheFileWall
+        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
+    fi
 fi
 }
 
@@ -354,15 +369,19 @@ pywal_construct(){
 
     get_sunpoll
 
-    if [ "$sun_poll" == "DAY" ];then
-        
-        pywal_options_combined="$pywal_options $pywal_options_day"
+    if [ "$sun_poll" == "DAY" ];then 
+
+        [ "$pywal_image_day" == "true" ] && pywal_options_image="-i $wallpaperPath/$image.jpg"
+        pywal_options_combined="-n -q $pywal_options_image $pywal_options $pywal_options_day"
 
     elif [ "$sun_poll" == "NIGHT" ];then
-        
-        pywal_options_combined="$pywal_options $pywal_options_night"
+
+        [ "$pywal_image_night" == "true" ] && pywal_options_image="-i $wallpaperPath/$image.jpg"
+        pywal_options_combined="-n -q $pywal_options_image $pywal_options $pywal_options_night"
 
     fi
+
+    wal $pywal_options_combined
 }
 
 local_darkmode(){
@@ -421,10 +440,6 @@ done
 # Start Calling Functions
 get_currenttime
 get_suntimes
-
-if [ "$pywalmode_enable" == "true" ]; then
-    pywal_construct
-fi
 
 if [ "$darkmode_enable" == "true" ]; then
     local_darkmode
