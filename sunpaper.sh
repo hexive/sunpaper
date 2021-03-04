@@ -114,6 +114,19 @@ pywal_image_night="true"
 # Just check back here if you you ever update the script for
 # any new config options.
 
+#################################################
+# SWAY-OGURI BRANCH
+#################################################
+#    add in sway config
+#    exec oguri -c ~/.config/oguri/config
+#    exec ~/sunpaper/sunpaper.sh -c && ~/sunpaper/sunpaper.sh
+# 
+# Display Output:
+display_output="eDP-1"
+
+#   fill | tile | stretch
+wallpaperMode="fill"
+
 ##CONFIG OPTIONS END---------------------------- 
 
 
@@ -131,6 +144,7 @@ CONFIG_FILE=$HOME/.config/sunpaper/config
 if [ -f "$CONFIG_FILE" ];then
     . "$CONFIG_FILE"
 fi
+
 
 #Trim any trailing slashes from paths
 wallpaperPath=$(echo $wallpaperPath | sed 's:/*$::')
@@ -150,6 +164,7 @@ set_cache(){
         echo "0" > $cacheFileWall
         currentpaper=0
     fi
+
 }
 
 clear_cache(){
@@ -266,7 +281,7 @@ if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; th
     
     if [[ $currentpaper != 2 ]]; then
         image=2
-        setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
+        ogurictl output $display_output output $display_output --scaling-mode $wallpaperMode --image $wallpaperPath/2.jpg
         sed -i s/./2/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
@@ -275,7 +290,7 @@ elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate"
   
     if [[ $currentpaper != 3 ]]; then
         image=3
-        setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
+        ogurictl output $display_output --scaling-mode $wallpaperMode --image $wallpaperPath/3.jpg
         sed -i s/./3/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
@@ -284,7 +299,7 @@ elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]
    
     if [[ $currentpaper != 4 ]]; then
         image=4
-        setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
+        ogurictl output $display_output --scaling-mode $wallpaperMode --image $wallpaperPath/4.jpg
         sed -i s/./4/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
@@ -293,7 +308,7 @@ elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly"
     
     if [[ $currentpaper != 5 ]]; then
         image=5
-        setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
+        ogurictl output $display_output --scaling-mode $wallpaperMode --image $wallpaperPath/5.jpg
         sed -i s/./5/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
@@ -302,7 +317,7 @@ elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightM
     
     if [[ $currentpaper != 6 ]]; then
         image=6
-        setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
+        ogurictl output $display_output --scaling-mode $wallpaperMode --image $wallpaperPath/6.jpg
         sed -i s/./6/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
 	fi
@@ -311,7 +326,7 @@ elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLat
    
     if [[ $currentpaper != 7 ]]; then
         image=7
-        setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
+        ogurictl output $display_output --scaling-mode $wallpaperMode --image $wallpaperPath/7.jpg
         sed -i s/./7/g $cacheFileWall  
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
@@ -320,7 +335,7 @@ elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ];
 
 	if [[ $currentpaper != 8 ]]; then
         image=8
-        setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
+        ogurictl output $display_output --scaling-mode $wallpaperMode --image $wallpaperPath/8.jpg
         sed -i s/./8/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
 	fi
@@ -328,7 +343,7 @@ elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ];
 else 
 	if [[ $currentpaper != 1 ]]; then
         image=1
-    	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
+    	ogurictl output $display_output --scaling-mode $wallpaperMode --image $wallpaperPath/1.jpg
     	sed -i s/./1/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
@@ -378,7 +393,6 @@ pywal_construct(){
         pywal_options_combined="-n -q $pywal_options_image $pywal_options $pywal_options_night"
 
     fi
-    echo "$pywal_options_combined"
     wal $pywal_options_combined
 }
 
