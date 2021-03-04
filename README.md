@@ -1,8 +1,8 @@
 ## Sunpaper
 
-Sunpaper is a small utility to change wallpaper based around your local sunrise and sunset times. 
+Sunpaper is a small utility to change wallpaper based on local sunrise and sunset times. 
 
-It works with several modified [dynamic themes](#wallpaper-previews) to move through 8 images throughout the day depending on the position of the sun at your location and time of year.
+It works with several modified [dynamic themes](#wallpaper-previews) to move through eight images throughout the day depending on the position of the sun at your location and time of year.
 
 Compatible with any linux distribution and window manager (X or wayland).
 
@@ -26,7 +26,7 @@ Compatible with any linux distribution and window manager (X or wayland).
 
 ## Why Sunpaper?
 
-Sunpaper was developed to recreate the behavior of Apple Dynamic Desktop wallpapers. The Big Sur minimal wallpapers are beautiful and I wanted to use them on my linux machines. There are many other timed wallpaper utilities out there, but they all seemed to be using static timetables for the wallpaper changes. I wanted something that could be directly tied to the sunrise/sunset times locally and adapt to changes over the year without any fiddling on my part.
+Dynamic wallpapers are awesome, but transitions are usually based on static timetables. I wanted something that could adapt to sunrise and sunset changes over the year without any input from me. The idea is to as closely recreate the Apple Big Sur Dynamic Desktop behavior as possible.
 
 
 ## [[Install]](https://github.com/hexive/sunpaper/wiki/1-Install) [[Configure]](https://github.com/hexive/sunpaper/wiki/2-Configure) [[Test]](https://github.com/hexive/sunpaper/wiki/3-Test-it) [[Automate]](https://github.com/hexive/sunpaper/wiki/4-Set-it-to-run-automatically) [[Wiki]](https://github.com/hexive/sunpaper/wiki)
