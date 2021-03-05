@@ -88,6 +88,7 @@ pywal_options_night=""
 pywal_image_day="true"
 pywal_image_night="true"
 
+
 #################################################
 # SWAY / WAYBAR MODE
 #################################################
@@ -98,20 +99,21 @@ pywal_image_night="true"
 # Set the icon display for that here
 status_icon=""
 
+
 #################################################
 # SWAY / OGURI MODE 
 # requires (https://github.com/vilhalmer/oguri)
 #################################################
 # Sway has an known issue https://github.com/swaywm/sway/issues/3693
-# that causes a gray flash whenever changing wallpaper
-# oguri uses an IPC which allows for smoother
+# that causes a gray flash whenever changing wallpaper.
+# Oguri uses an IPC which allows for smoother
 # no-flash wallpaper changes in sway.
 #
 # enable this mode here with 
 # oguri_enable="true"
 oguri_enable="false"
 
-# oguri should already be installed and configured
+# oguri should already be installed and configured.
 # sunpaper will launch the oguri socket with the
 # location of your oguri configuration file set here
 oguri_config="$HOME/.config/oguri/config"
@@ -156,8 +158,8 @@ if [ -f "$CONFIG_FILE" ];then
 fi
 
 #Trim any trailing slashes from paths
-wallpaperPath=$(echo $wallpaperPath | sed 's:/*$::')
-cachePath=$(echo $cachePath | sed 's:/*$::')
+wallpaperPath=$(echo "$wallpaperPath" | sed 's:/*$::')
+cachePath=$(echo "$cachePath" | sed 's:/*$::')
 
 #Define cache paths
 cacheFileWall="$cachePath/sunpaper_cache.wallpaper"
@@ -167,33 +169,34 @@ cacheFileNight="$cachePath/sunpaper_cache.night"
 set_cache(){
 
     if [ -f "$cacheFileWall" ]; then
-        currentpaper=$( cat < $cacheFileWall );
+        currentpaper=$( cat < "$cacheFileWall" );
     else 
-        touch $cacheFileWall
-        echo "0" > $cacheFileWall
+        touch "$cacheFileWall"
+        echo "0" > "$cacheFileWall"
         currentpaper=0
     fi
-
 }
 
 clear_cache(){
 
+	#TODO: -q quiet mode?
+
     if [ -f "$cacheFileWall" ]; then
-        rm $cacheFileWall
+        rm "$cacheFileWall"
         echo "cleared wallpaper cache"
     else 
         echo "no wallpaper cache file found"
     fi
 
     if [ -f "$cacheFileDay" ]; then
-        rm $cacheFileDay
+        rm "$cacheFileDay"
         echo "cleared darkmode day cache"
     else 
         echo "no darkmode day cache found"
     fi
 
     if [ -f "$cacheFileNight" ]; then
-        rm $cacheFileNight
+        rm "$cacheFileNight"
         echo "cleared darkmode night cache"
     else 
         echo "no darkmode night cache found"
@@ -224,7 +227,6 @@ get_suntimes(){
     twilightMid=$(date -d "$get_sunset 30 minutes ago" +"%s");
     twilightLate=$(date -d "$get_sunset 15 minutes ago" +"%s");
     sunset=$(date -d "$get_sunset" +"%s");
-
 }
 
 get_sunpoll(){
@@ -243,25 +245,25 @@ show_suntimes(){
     #echo "--------------"
     echo "Sunpaper: $version"
     echo ""
-    echo "Current Time: "`date -d "@$currenttime" +"%H:%M"`
+    echo "Current Time: " $(date -d "@$currenttime" +"%H:%M")
     echo "Current Paper: $currentpaper.jpg"
     [[ "$darkmode_enable" == "true" ]] && echo "Darkmode Status: $sun_poll"
     echo ""
-    echo `date -d "@$sunrise" +"%H:%M"` "- Sunrise (2.jpg)"
-    echo `date -d "@$sunriseMid" +"%H:%M"` "- Sunrise Mid (3.jpg)"
-    echo `date -d "@$sunriseLate" +"%H:%M"` "- Sunrise Late (4.jpg)"
-    echo `date -d "@$dayLight" +"%H:%M"` "- Daylight (5.jpg)"
-    echo `date -d "@$twilightEarly" +"%H:%M"` "- Twilight Early (6.jpg)"
-    echo `date -d "@$twilightMid" +"%H:%M"` "- Twilight Mid (7.jpg)"
-    echo `date -d "@$twilightLate" +"%H:%M"` "- Twilight Late (8.jpg)"
-    echo `date -d "@$sunset" +"%H:%M"` "- Sunset (1.jpg)"
+    echo $(date -d "@$sunrise" +"%H:%M") "- Sunrise (2.jpg)"
+    echo $(date -d "@$sunriseMid" +"%H:%M") "- Sunrise Mid (3.jpg)"
+    echo $(date -d "@$sunriseLate" +"%H:%M") "- Sunrise Late (4.jpg)"
+    echo $(date -d "@$dayLight" +"%H:%M") "- Daylight (5.jpg)"
+    echo $(date -d "@$twilightEarly" +"%H:%M") "- Twilight Early (6.jpg)"
+    echo $(date -d "@$twilightMid" +"%H:%M") "- Twilight Mid (7.jpg)"
+    echo $(date -d "@$twilightLate" +"%H:%M") "- Twilight Late (8.jpg)"
+    echo $(date -d "@$sunset" +"%H:%M") "- Sunset (1.jpg)"
 }
 
 show_suntimes_waybar(){
 
     #sunpaper calls itself to get -r report lines
-    sunpaper_self=`realpath $0`
-    output=$(bash $sunpaper_self -r)
+    sunpaper_self=$(realpath "$0")
+    output=$(bash "$sunpaper_self" -r)
 
     tooltip="$(echo "$output" | sed -z 's/\n/\\n/g')"
     tooltip=${tooltip::-2}
@@ -287,7 +289,7 @@ if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; th
     if [[ $currentpaper != 2 ]]; then
         image=2
         setpaper_construct
-        sed -i s/./$image/g $cacheFileWall
+        sed -i "s/./$image/g" "$cacheFileWall"
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -296,7 +298,7 @@ elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate"
     if [[ $currentpaper != 3 ]]; then
         image=3
         setpaper_construct
-        sed -i s/./$image/g $cacheFileWall
+        sed -i "s/./$image/g" "$cacheFileWall"
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -305,7 +307,7 @@ elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]
     if [[ $currentpaper != 4 ]]; then
         image=4
         setpaper_construct
-        sed -i s/./$image/g $cacheFileWall
+        sed -i "s/./$image/g" "$cacheFileWall"
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -314,7 +316,7 @@ elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly"
     if [[ $currentpaper != 5 ]]; then
         image=5
         setpaper_construct
-        sed -i s/./$image/g $cacheFileWall
+        sed -i "s/./$image/g" "$cacheFileWall"
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -323,7 +325,7 @@ elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightM
     if [[ $currentpaper != 6 ]]; then
         image=6
         setpaper_construct
-        sed -i s/./$image/g $cacheFileWall
+        sed -i "s/./$image/g" "$cacheFileWall"
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
 	fi
 
@@ -332,7 +334,7 @@ elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLat
     if [[ $currentpaper != 7 ]]; then
         image=7
         setpaper_construct
-        sed -i s/./$image/g $cacheFileWall  
+        sed -i "s/./$image/g" "$cacheFileWall"  
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -341,7 +343,7 @@ elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ];
 	if [[ $currentpaper != 8 ]]; then
         image=8
         setpaper_construct
-        sed -i s/./$image/g $cacheFileWall
+        sed -i "s/./$image/g" "$cacheFileWall"
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
 	fi
 
@@ -349,7 +351,7 @@ else
 	if [[ $currentpaper != 1 ]]; then
         image=1
     	setpaper_construct
-    	sed -i s/./$image/g $cacheFileWall
+    	sed -i "s/./$image/g" "$cacheFileWall"
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 fi
@@ -394,7 +396,7 @@ setpaper_construct(){
         #output $display_output
 
         # it takes awhile for that socket to start so make sure there's success before moving on
-        until ogurictl output \* --scaling-mode $wallpaperModeOguri --image $wallpaperPath/$image.jpg > /dev/null 2>&1; do
+        until ogurictl output \* --scaling-mode "$wallpaperModeOguri" --image "$wallpaperPath"/"$image".jpg > /dev/null 2>&1; do
             ((c++)) && ((c==10)) && break
             sleep 1
         done
@@ -402,10 +404,9 @@ setpaper_construct(){
     else
 
         # Use walutil setwallpaper
-        setwallpaper -m $wallpaperMode $wallpaperPath/$image.jpg
-
+        setwallpaper -m "$wallpaperMode" "$wallpaperPath"/"$image".jpg
     fi
-    }
+}
 
 pywal_construct(){
 
@@ -414,15 +415,17 @@ pywal_construct(){
     if [ "$sun_poll" == "DAY" ];then 
 
         [ "$pywal_image_day" == "true" ] && pywal_options_image="-i $wallpaperPath/$image.jpg"
-        pywal_options_combined="-n -q $pywal_options_image $pywal_options $pywal_options_day"
+        pywal_options_combined="$pywal_options_image $pywal_options $pywal_options_day"
 
     elif [ "$sun_poll" == "NIGHT" ];then
 
         [ "$pywal_image_night" == "true" ] && pywal_options_image="-i $wallpaperPath/$image.jpg"
-        pywal_options_combined="-n -q $pywal_options_image $pywal_options $pywal_options_night"
-
+        pywal_options_combined="$pywal_options_image $pywal_options $pywal_options_night"
     fi
-    wal $pywal_options_combined
+    #TODO: why does this fail?
+    #wal -n -q "$pywal_options_combined"
+    wal -n -q $pywal_options_combined
+    #echo "$pywal_options_combined"
 }
 
 local_darkmode(){
@@ -430,15 +433,16 @@ local_darkmode(){
     get_sunpoll
 
     if [ "$sun_poll" == "DAY" ] && [ ! -f "$cacheFileDay" ];then
-        exec `$darkmode_run_day`
-        touch $cacheFileDay
-        rm $cacheFileNight 2> /dev/null || true
+	#TODO: why does this fail?
+	#$("$darkmode_run_day")
+	$($darkmode_run_day)
+        touch "$cacheFileDay"
+        rm "$cacheFileNight" 2> /dev/null || true
 
     elif [ "$sun_poll" == "NIGHT" ] && [ ! -f "$cacheFileNight" ];then
-        exec `$darkmode_run_night`
-        touch $cacheFileNight
-        rm $cacheFileDay 2> /dev/null || true
-
+	$($darkmode_run_night)
+        touch "$cacheFileNight"
+        rm "$cacheFileDay" 2> /dev/null || true
     fi
 }
 
@@ -449,7 +453,7 @@ exec_oguri(){
         #do nothing
         true
     else
-        nohup oguri -c $oguri_config > /dev/null 2>&1 &
+        nohup oguri -c "$oguri_config" > /dev/null 2>&1 &
     fi
 }
 
