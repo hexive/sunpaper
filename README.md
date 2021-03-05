@@ -17,10 +17,10 @@ Compatible with any linux distribution and window manager (X or wayland).
 
 ## Optional Extras
 
-- [x] [Pywal](https://github.com/dylanaraps/pywal) mode to set color schemes on-the-fly with each wallpaper change
-- [x] Darkmode to run an external script at day/night
-- [x] [Oguri](https://github.com/vilhalmer/oguri) mode for smoother wallpaper transitions on SwayWM. 
-- [x] [Waybar](https://github.com/Alexays/Waybar) mode to display icon and sun time report on tooltip
+- [x] [Darkmode](https://github.com/hexive/sunpaper/wiki/Darkmode) - run external scripts on a day/night trigger
+- [x] [Pywal mode](https://github.com/hexive/sunpaper/wiki/Pywal-Mode) - get on-the-fly color scheme changes for each wallpaper change.
+- [x] [Waybar mode](https://github.com/hexive/sunpaper/wiki/Waybar-Mode) - display icon and transition report as tooltip
+- [x] [Sway/Oguri mode](https://github.com/hexive/sunpaper/wiki/Sway-Oguri-Mode) - no-flash wallpaper changes in sway
 
 ## TODO
 
