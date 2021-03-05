@@ -2,7 +2,7 @@
 
 Sunpaper is a small utility to change wallpaper based on local sunrise and sunset times. 
 
-It works with several modified [dynamic themes](#wallpaper-previews) to move through eight images throughout the day depending on the position of the sun at your location and time of year.
+It works with several modified [dynamic themes](#wallpaper-previews) to move through eight images depending on the position of the sun at your location and time of year.
 
 Compatible with any linux distribution and window manager (X or wayland).
 
@@ -12,10 +12,14 @@ Compatible with any linux distribution and window manager (X or wayland).
 ## Features
 
 - [x] Changes wallpaper based on the sun location where you are
-- [x] Sets day/night wallpaper with 3 additional transitions for each sunrise/sunset
+- [x] Sets a day/night wallpaper with 3 additional transitions for each sunrise/sunset
 - [x] 5 wallpaper themes to choose from ([previews](#wallpaper-previews))
-- [x] [Pywal](https://github.com/dylanaraps/pywal) mode to set color schemes with each wallpaper change
-- [x] Darkmode trigger to run external script at day/night
+
+## Optional Extras
+
+- [x] [Pywal](https://github.com/dylanaraps/pywal) mode to set color schemes on-the-fly with each wallpaper change
+- [x] Darkmode to run an external script at day/night
+- [x] [Oguri](https://github.com/vilhalmer/oguri) mode for smoother wallpaper transitions on SwayWM. 
 - [x] [Waybar](https://github.com/Alexays/Waybar) mode to display icon and sun time report on tooltip
 
 ## TODO

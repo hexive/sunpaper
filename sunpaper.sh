@@ -56,17 +56,6 @@ darkmode_run_night=""
 
 
 #################################################
-# WAYBAR MODE
-#################################################
-# Sunpaper has a special mode for use with sway/waybar 
-# It displays an icon and sun times report as a tooltip.
-# Call it with a flag sunpaper.sh --waybar
-
-# Set the icon display for that here
-status_icon=""
-
-
-#################################################
 # PYWAL MODE 
 # requires pywal (https://github.com/dylanaraps/pywal)
 #################################################
@@ -79,7 +68,7 @@ pywalmode_enable="false"
 # you may set them here. 
 #
 # NOTE Sunpaper does not use pywal to set the wallpaper 
-# images, so those options will be ignored.
+# images, so please don't set those options.
 #
 # Set pywal options that will always be used
 # for example: 
@@ -99,6 +88,44 @@ pywal_options_night=""
 pywal_image_day="true"
 pywal_image_night="true"
 
+#################################################
+# SWAY / WAYBAR MODE
+#################################################
+# Sunpaper has a special mode for use with sway/waybar 
+# It displays an icon and sun times report as a tooltip.
+# Call it with a flag sunpaper.sh --waybar
+
+# Set the icon display for that here
+status_icon=""
+
+#################################################
+# SWAY / OGURI MODE 
+# requires (https://github.com/vilhalmer/oguri)
+#################################################
+# Sway has an known issue https://github.com/swaywm/sway/issues/3693
+# that causes a gray flash whenever changing wallpaper
+# oguri uses an IPC which allows for smoother
+# no-flash wallpaper changes in sway.
+#
+# enable this mode here with 
+# oguri_enable="true"
+oguri_enable="false"
+
+# oguri should already be installed and configured
+# sunpaper will launch the oguri socket with the
+# location of your oguri configuration file set here
+oguri_config="$HOME/.config/oguri/config"
+
+# Set the display output name. You can find this with
+# swaymsg -t get_outputs
+#
+# mine looks like:
+display_output="eDP-1"
+
+# oguri takes three options for wallpaper display
+# fill | tile | stretch
+wallpaperModeOguri="fill"
+
 
 #################################################
 # EXTERNAL CONFIGURATION
@@ -114,6 +141,7 @@ pywal_image_night="true"
 # Just check back here if you you ever update the script for
 # any new config options.
 
+
 ##CONFIG OPTIONS END---------------------------- 
 
 
@@ -123,8 +151,9 @@ pywal_image_night="true"
 #2.28 - new darkmode feature
 #3.01 - new waybar feature
 #3.03 - pywall integration
+#3.05 - oguri integration
 
-version="3.03"
+version="3.05"
 
 # Check for external config file
 CONFIG_FILE=$HOME/.config/sunpaper/config
@@ -150,6 +179,7 @@ set_cache(){
         echo "0" > $cacheFileWall
         currentpaper=0
     fi
+
 }
 
 clear_cache(){
@@ -205,10 +235,6 @@ get_suntimes(){
 
 get_sunpoll(){
 
-    # this if/else replaces sunwait poll function which unfortunately cannot 
-    # be evaulated by different $t_ime so won't work with our --time testing flag
-    ### sun_poll=$(sunwait d $d_ay m $m_onth y $y_ear poll civil $latitude $longitude)
-    #
     # TODO: allow for darkmode time offsets
 
     if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunset" ]; then
@@ -266,8 +292,8 @@ if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; th
     
     if [[ $currentpaper != 2 ]]; then
         image=2
-        setwallpaper -m $wallpaperMode $wallpaperPath/2.jpg
-        sed -i s/./2/g $cacheFileWall
+        setpaper_construct
+        sed -i s/./$image/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -275,8 +301,8 @@ elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate"
   
     if [[ $currentpaper != 3 ]]; then
         image=3
-        setwallpaper -m $wallpaperMode $wallpaperPath/3.jpg
-        sed -i s/./3/g $cacheFileWall
+        setpaper_construct
+        sed -i s/./$image/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -284,8 +310,8 @@ elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]
    
     if [[ $currentpaper != 4 ]]; then
         image=4
-        setwallpaper -m $wallpaperMode $wallpaperPath/4.jpg
-        sed -i s/./4/g $cacheFileWall
+        setpaper_construct
+        sed -i s/./$image/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -293,8 +319,8 @@ elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly"
     
     if [[ $currentpaper != 5 ]]; then
         image=5
-        setwallpaper -m $wallpaperMode $wallpaperPath/5.jpg
-        sed -i s/./5/g $cacheFileWall
+        setpaper_construct
+        sed -i s/./$image/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -302,8 +328,8 @@ elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightM
     
     if [[ $currentpaper != 6 ]]; then
         image=6
-        setwallpaper -m $wallpaperMode $wallpaperPath/6.jpg
-        sed -i s/./6/g $cacheFileWall
+        setpaper_construct
+        sed -i s/./$image/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
 	fi
 
@@ -311,8 +337,8 @@ elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLat
    
     if [[ $currentpaper != 7 ]]; then
         image=7
-        setwallpaper -m $wallpaperMode $wallpaperPath/7.jpg
-        sed -i s/./7/g $cacheFileWall  
+        setpaper_construct
+        sed -i s/./$image/g $cacheFileWall  
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 
@@ -320,16 +346,16 @@ elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ];
 
 	if [[ $currentpaper != 8 ]]; then
         image=8
-        setwallpaper -m $wallpaperMode $wallpaperPath/8.jpg
-        sed -i s/./8/g $cacheFileWall
+        setpaper_construct
+        sed -i s/./$image/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
 	fi
 
 else 
 	if [[ $currentpaper != 1 ]]; then
         image=1
-    	setwallpaper -m $wallpaperMode $wallpaperPath/1.jpg
-    	sed -i s/./1/g $cacheFileWall
+    	setpaper_construct
+    	sed -i s/./$image/g $cacheFileWall
         [[ "$pywalmode_enable" == "true" ]] && pywal_construct
     fi
 fi
@@ -363,6 +389,27 @@ Sunpaper Option Flags (flags cannot be combined)
 EOF
 }
 
+setpaper_construct(){
+
+    if [ "$oguri_enable" == "true" ];then 
+
+        # Check for oguri socket and launch it if it isn't running
+        exec_oguri
+
+        # it takes awhile for that socket to start so make sure there's success before moving on
+        until ogurictl output $display_output --scaling-mode $wallpaperModeOguri --image $wallpaperPath/$image.jpg > /dev/null 2>&1; do
+            ((c++)) && ((c==10)) && break
+            sleep 1
+        done
+
+    else
+
+        # Use walutil setwallpaper
+        setwallpaper -m $wallpaperMode $wallpaperPath/$image.jpg
+
+    fi
+    }
+
 pywal_construct(){
 
     get_sunpoll
@@ -395,6 +442,17 @@ local_darkmode(){
         touch $cacheFileNight
         rm $cacheFileDay 2> /dev/null || true
 
+    fi
+}
+
+exec_oguri(){
+
+    #Check if oguri socket is already running
+    if pgrep -x "oguri" > /dev/null ;then
+        #do nothing
+        true
+    else
+        nohup oguri -c $oguri_config > /dev/null 2>&1 &
     fi
 }
 
