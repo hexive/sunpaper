@@ -116,12 +116,6 @@ oguri_enable="false"
 # location of your oguri configuration file set here
 oguri_config="$HOME/.config/oguri/config"
 
-# Set the display output name. You can find this with
-# swaymsg -t get_outputs
-#
-# mine looks like:
-display_output="eDP-1"
-
 # oguri takes three options for wallpaper display
 # fill | tile | stretch
 wallpaperModeOguri="fill"
@@ -396,8 +390,11 @@ setpaper_construct(){
         # Check for oguri socket and launch it if it isn't running
         exec_oguri
 
+        #is there a need to make this configurable?
+        #output $display_output
+
         # it takes awhile for that socket to start so make sure there's success before moving on
-        until ogurictl output $display_output --scaling-mode $wallpaperModeOguri --image $wallpaperPath/$image.jpg > /dev/null 2>&1; do
+        until ogurictl output \* --scaling-mode $wallpaperModeOguri --image $wallpaperPath/$image.jpg > /dev/null 2>&1; do
             ((c++)) && ((c==10)) && break
             sleep 1
         done
