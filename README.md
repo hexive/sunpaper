@@ -33,7 +33,7 @@ Compatible with any linux distribution and window manager (X or wayland).
 Dynamic wallpapers are awesome, but transitions are usually based on static timetables. I wanted something that could adapt to sunrise and sunset changes over the year without any input from me. The idea is to as closely recreate the Apple Big Sur Dynamic Desktop behavior as possible.
 
 
-## [[Install]](https://github.com/hexive/sunpaper/wiki/1-Install) [[Configure]](https://github.com/hexive/sunpaper/wiki/2-Configure) [[Test]](https://github.com/hexive/sunpaper/wiki/3-Test-it) [[Automate]](https://github.com/hexive/sunpaper/wiki/4-Set-it-to-run-automatically) [[Wiki]](https://github.com/hexive/sunpaper/wiki)
+## [[Install]](https://github.com/hexive/sunpaper/wiki/Install) [[Configure]](https://github.com/hexive/sunpaper/wiki/Configure) [[Test]](https://github.com/hexive/sunpaper/wiki/Test-it) [[Automate]](https://github.com/hexive/sunpaper/wiki/Set-it-to-run-automatically) [[Wiki]](https://github.com/hexive/sunpaper/wiki)
 
 
 ## Wallpaper Previews
