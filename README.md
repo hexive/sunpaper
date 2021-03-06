@@ -6,7 +6,7 @@ It works with several modified [dynamic themes](#wallpaper-previews) to move thr
 
 Compatible with any linux distribution and window manager (X or wayland).
 
-![Screenshot](screenshots/screenshot.jpg)
+![Screenshot](screenshots/sunpaper-compressed.gif)
 
 
 ## Features
