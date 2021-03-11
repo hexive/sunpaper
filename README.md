@@ -13,7 +13,7 @@ Compatible with any linux distribution and window manager (X or wayland).
 
 - [x] Changes wallpaper based on the sun location where you are
 - [x] Sets a day/night wallpaper with 3 additional transitions for each sunrise/sunset
-- [x] 5 wallpaper themes to choose from ([previews](#wallpaper-previews))
+- [x] 6 wallpaper themes to choose from ([previews](#wallpaper-previews))
 
 ## Optional Extras
 
@@ -24,7 +24,7 @@ Compatible with any linux distribution and window manager (X or wayland).
 
 ## TODO
 
-- [ ] New original content FOSS wallpaper themes
+- [ ] More original content FOSS wallpaper themes
 - [ ] More custom status bar modes 
 
 
@@ -45,6 +45,14 @@ Wallpaper images are not mine, they are from the following sources:
 |The Desert|The Lake|The Cliffs|The Beach|
 |--|--|--|--|
 |![Thumbnail](screenshots/the-desert-200.jpg)|![Thumbnail](screenshots/the-lake-200.jpg)|![Thumbnail](screenshots/the-cliffs-200.jpg)|![Thumbnail](screenshots/the-beach-200.jpg)|
+
+### from Blake Watson: (2880x1800) 
+[https://blakewatson.com](https://blakewatson.com)
+Adapted for sunpaper, with permission, from Blake's [Corporate Sunrise](http://simpledesktops.com/browse/desktops/2015/feb/26/corporate-sunrise/) and Corporate Night Wallpapers.
+
+|Corporate Synergy|
+|--|
+|![Thumbnail](screenshots/corporate-synergy-200.jpg)|
 
 
 ### from Louis Coyle: (7680x3214) 

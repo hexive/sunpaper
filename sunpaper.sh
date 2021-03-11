@@ -16,8 +16,11 @@ longitude="77.0369W"
 
 # Set full path to the wallpaper theme folder
 # Theme folder names:
+#
 # Apple: The-Beach The-Cliffs The-Lake The-Desert
+# Blake Watson: Corporate-Synergy
 # Louis Coyle: Lakeside
+# 
 wallpaperPath="$HOME/sunpaper/images/The-Desert"
 
 # Set how you want your wallpaper displayed
@@ -415,17 +418,16 @@ pywal_construct(){
     if [ "$sun_poll" == "DAY" ];then 
 
         [ "$pywal_image_day" == "true" ] && pywal_options_image="-i $wallpaperPath/$image.jpg"
-        pywal_options_combined="$pywal_options_image $pywal_options $pywal_options_day"
+        pywal_options_combined="-q -n $pywal_options_image $pywal_options $pywal_options_day"
 
     elif [ "$sun_poll" == "NIGHT" ];then
 
         [ "$pywal_image_night" == "true" ] && pywal_options_image="-i $wallpaperPath/$image.jpg"
-        pywal_options_combined="$pywal_options_image $pywal_options $pywal_options_night"
+        pywal_options_combined="-q -n $pywal_options_image $pywal_options $pywal_options_night"
     fi
     #TODO: why does this fail?
-    #wal -n -q "$pywal_options_combined"
-    wal -n -q $pywal_options_combined
-    #echo "$pywal_options_combined"
+    #wal "$pywal_options_combined"
+    wal $pywal_options_combined
 }
 
 local_darkmode(){
@@ -486,7 +488,7 @@ while :; do
         ;;
         -w|--waybar) 
             waybarmode_enable="true"
-            shift             
+            shift
         ;;
         *) break
     esac
