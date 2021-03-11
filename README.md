@@ -47,7 +47,7 @@ Wallpaper images are not mine, they are from the following sources:
 |![Thumbnail](screenshots/the-desert-200.jpg)|![Thumbnail](screenshots/the-lake-200.jpg)|![Thumbnail](screenshots/the-cliffs-200.jpg)|![Thumbnail](screenshots/the-beach-200.jpg)|
 
 ### from Blake Watson: (2880x1800) 
-[https://blakewatson.com](https://blakewatson.com)
+[https://blakewatson.com](https://blakewatson.com)  
 Adapted for sunpaper, with permission, from Blake's [Corporate Sunrise](http://simpledesktops.com/browse/desktops/2015/feb/26/corporate-sunrise/) and Corporate Night Wallpapers.
 
 |Corporate Synergy|
