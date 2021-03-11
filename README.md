@@ -25,7 +25,9 @@ Compatible with any linux distribution and window manager (X or wayland).
 ## TODO
 
 - [ ] More original content FOSS wallpaper themes
-- [ ] More custom status bar modes 
+- [ ] More custom status bar modes  
+- [ ] Moon phases?  
+- [ ] Weather?!
 
 
 ## Why Sunpaper?
@@ -48,7 +50,7 @@ Wallpaper images are not mine, they are from the following sources:
 
 ### from Blake Watson: (2880x1800) 
 [https://blakewatson.com](https://blakewatson.com)  
-Adapted for sunpaper, with permission, from Blake's [Corporate Sunrise](http://simpledesktops.com/browse/desktops/2015/feb/26/corporate-sunrise/) and Corporate Night Wallpapers.
+Adapted for sunpaper, with permission, from Blake's [Corporate Sunrise](http://simpledesktops.com/browse/desktops/2015/feb/26/corporate-sunrise/) and Corporate Nights Wallpapers.
 
 |Corporate Synergy|
 |--|
