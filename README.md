@@ -1,12 +1,12 @@
 ## Sunpaper
 
-Sunpaper is a small utility to change wallpaper based on local sunrise and sunset times. 
+Sunpaper is a linux utility to change wallpaper based on local sunrise and sunset times. 
 
 It works with several modified [dynamic themes](#wallpaper-previews) to move through eight images depending on the position of the sun at your location and time of year.
 
-Compatible with any linux distribution and window manager (X or wayland).
+Compatible with any distribution and window manager (X or wayland).
 
-![Screenshot](screenshots/sunpaper-compressed.gif)
+![Screenshot](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/corporate-compressed.gif)
 
 
 ## Features
@@ -17,6 +17,8 @@ Compatible with any linux distribution and window manager (X or wayland).
 
 ## Optional Extras
 
+- [x] [Live Weather mode](https://github.com/hexive/sunpaper/wiki/Live-Weather-Mode) - show wallpapers based on weather outside
+- [x] [Moonphase Mode](https://github.com/hexive/sunpaper/wiki/Darkmode) - show wallpapers reflecting the correct moonphase
 - [x] [Darkmode](https://github.com/hexive/sunpaper/wiki/Darkmode) - run external scripts on a day/night trigger
 - [x] [Pywal mode](https://github.com/hexive/sunpaper/wiki/Pywal-Mode) - get on-the-fly color scheme changes for each wallpaper change.
 - [x] [Waybar mode](https://github.com/hexive/sunpaper/wiki/Waybar-Mode) - display icon and transition report as tooltip
@@ -26,8 +28,6 @@ Compatible with any linux distribution and window manager (X or wayland).
 
 - [ ] More original content FOSS wallpaper themes
 - [ ] More custom status bar modes  
-- [ ] Moon phases?  
-- [ ] Weather?!
 
 
 ## Why Sunpaper?
@@ -40,21 +40,24 @@ Dynamic wallpapers are awesome, but transitions are usually based on static time
 
 ## Wallpaper Previews
 
-Wallpaper images are not mine, they are from the following sources:
+### from Blake Watson & Sunpaper: (3440x2150) 
+[https://blakewatson.com](https://blakewatson.com)  
+Full dynamic, live weather and moonphase themes adapted for sunpaper, with permission, from Blake's [Corporate Sunrise](http://simpledesktops.com/browse/desktops/2015/feb/26/corporate-sunrise/) and Corporate Nights Wallpapers.
+
+|Corporate Synergy|*sun transitions*|*moon phases*|*live weather*|
+|--|--|--|--|
+|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/corporate-synergy-200.jpg)|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/corporate-clouds-200.jpg)|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/corporate-moons-200.jpg)|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/corporate-weather-200.jpg)|
+
+
+***
+
+Sunpaper also works with the following external themes. These wallpaper images are not mine, and may be subject to copyright. They are from the following sources:
 
 ### from Apple Big Sur (6016x6016)
 
 |The Desert|The Lake|The Cliffs|The Beach|
 |--|--|--|--|
-|![Thumbnail](screenshots/the-desert-200.jpg)|![Thumbnail](screenshots/the-lake-200.jpg)|![Thumbnail](screenshots/the-cliffs-200.jpg)|![Thumbnail](screenshots/the-beach-200.jpg)|
-
-### from Blake Watson: (2880x1800) 
-[https://blakewatson.com](https://blakewatson.com)  
-Adapted for sunpaper, with permission, from Blake's [Corporate Sunrise](http://simpledesktops.com/browse/desktops/2015/feb/26/corporate-sunrise/) and Corporate Nights Wallpapers.
-
-|Corporate Synergy|
-|--|
-|![Thumbnail](screenshots/corporate-synergy-200.jpg)|
+|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/the-desert-200.jpg)|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/the-lake-200.jpg)|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/the-cliffs-200.jpg)|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/the-beach-200.jpg)|
 
 
 ### from Louis Coyle: (7680x3214) 
@@ -63,4 +66,4 @@ Adapted for sunpaper, with permission, from Blake's [Corporate Sunrise](http://s
 
 |Lakeside|
 |--|
-|![Thumbnail](screenshots/lakeside-200.jpg)|
+|![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/lakeside-200.jpg)|
