@@ -621,7 +621,7 @@ get_weather(){
         # TODO: HO HO HO we need some snow wallpapers
         # [[ "$weather_main" = *Snow* ]]
 
-        if [[ "$weather_main" = *Rain* ]] || [[ "${weather_main}" = *Drizzle* ]]; then
+        if [[ "$weather_main" = *Rain* ]] || [[ "${weather_main}" = *Drizzle* ]] || [[ "$weather_main" = *Mist* ]]; then
             currentWeather="rain"
 
         elif [[ "$weather_main" = *Thunderstorm* ]] || [[ "$weather_main" = *Extreme* ]] || [[ "$weather_main" = *Squall* ]] || [[ "$weather_main" = *Tornado* ]]; then
@@ -630,7 +630,7 @@ get_weather(){
         elif [[ "$weather_main" = *Clear* ]]; then
             currentWeather="clear"
 
-        elif [[ "$weather_main" = *Fog* ]] || [[ "$weather_main" = *Mist* ]] || [[ "$weather_main" = *Haze* ]]|| [[ "$weather_main" = *Smoke* ]]|| [[ "$weather_main" = *Dust* ]]|| [[ "$weather_main" = *Sand* ]]|| [[ "$weather_main" = *Ash* ]]; then
+        elif [[ "$weather_main" = *Fog* ]] || [[ "$weather_main" = *Haze* ]]|| [[ "$weather_main" = *Smoke* ]]|| [[ "$weather_main" = *Dust* ]]|| [[ "$weather_main" = *Sand* ]]|| [[ "$weather_main" = *Ash* ]]; then
             currentWeather="fog"
 
         else
