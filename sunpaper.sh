@@ -437,8 +437,17 @@ setpaper_construct(){
         if [ $image == 1 ] || [ $image == 2 ] || [ $image == 8 ];then
 
             get_moonphase
-            # update $image used below with new path and moonphase addendum
-            image="moons/$image$phase_addendum"
+
+            if [[ ("$phase_addendum" == "-1" || "$phase_addendum" == "-5") && ($image == 2 || $image == 8) ]];then
+                # if moonphase is new or full use defaults on images 2 & 8
+                true
+            elif [[ "$phase_addendum" == "-5" ]] && [[ $image == 1 ]];then
+                # if moonphase is full use default on image 1
+                true
+            else
+                # update $image used below with new path and moonphase addendum
+                image="moons/$image$phase_addendum"
+            fi
         fi
     fi
 
@@ -471,7 +480,6 @@ setpaper_construct(){
     # Pywal
 
     [[ "$pywalmode_enable" == "true" ]] && pywal_construct
-
 }
 
 pywal_construct(){
@@ -521,7 +529,6 @@ get_moonphase(){
     now=$(date -u +"%s") #Time now (unix time)
     newmoon=592500 #Known new moon time (unix time). 7 Jan 1970 20:35
     phase=$((($now - $newmoon) % $lp))
-
 
     # Multiply by 100000 so we can do integer comparison.  Go Bash!
     phase_number=$((((phase / 86400) + 1)*100000))
