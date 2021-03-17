@@ -6,6 +6,9 @@
 # can be called with option flags. 
 # Check sunpaper.sh -h 
 
+# There's also pretty good documentation on the wiki
+# https://github.com/hexive/sunpaper/wiki
+
 #################################################
 # BASIC CONFIGURATION
 #################################################
@@ -17,11 +20,11 @@ longitude="77.0369W"
 # Set full path to the wallpaper theme folder
 # Theme folder names:
 #
+# Blake Watson & Sunpaper: Corporate-Synergy
 # Apple: The-Beach The-Cliffs The-Lake The-Desert
-# Blake Watson: Corporate-Synergy
 # Louis Coyle: Lakeside
 # 
-wallpaperPath="$HOME/sunpaper/images/The-Desert"
+wallpaperPath="$HOME/sunpaper/images/Corporate-Synergy"
 
 # Set how you want your wallpaper displayed
 # stretch | center | tile | scale | zoom | fill
@@ -41,6 +44,44 @@ cachePath="$HOME/.cache"
 # The rest of these are optional configuration modes
 #
 #################################################
+# Moonphase Mode
+#################################################
+# Show a wallpaper with the correct moonphase for
+# today's date.
+#
+# This only works with Corporate-Synergy theme so 
+# make sure it's already set as your theme choice.
+#
+# moonphase_enable="true"
+moonphase_enable="false"
+
+
+#################################################
+# Live Weather Mode
+#################################################
+# Show a wallpaper that reflects the current weather
+# conditions outside.
+#
+# This only works with Corporate-Synergy theme so 
+# make sure it's already set as your theme choice.
+#
+# weather_enable="true"
+weather_enable="false"
+
+# We're using an API from openweathermap.org
+# to get your local conditions. You'll need to sign
+# up for a free API Key and set it below:
+# https://openweathermap.org/price
+#
+weather_api_key=""
+
+# Set your openweather city id number here.
+# Check on http://openweathermap.org/find
+#
+weather_city_id="4140963"
+
+
+#################################################
 # DARKMODE
 #################################################
 # You may use script to trigger a darkmode on your desktop
@@ -53,7 +94,7 @@ darkmode_enable="false"
 # And if darkmode is enabled, use these two lines
 # to set the the external command to run on day / night.
 # example: 
-# darkmode_run_day="bash /path/to/switch.sh light"
+# darkmode_run_day="/path/to/switch.sh light"
 darkmode_run_day=""
 darkmode_run_night=""
 
@@ -69,9 +110,6 @@ pywalmode_enable="false"
 
 # If you like to use pywal with specific options 
 # you may set them here. 
-#
-# NOTE Sunpaper does not use pywal to set the wallpaper 
-# images, so please don't set those options.
 #
 # Set pywal options that will always be used
 # for example: 
@@ -97,7 +135,10 @@ pywal_image_night="true"
 #################################################
 # Sunpaper has a special mode for use with sway/waybar 
 # It displays an icon and sun times report as a tooltip.
-# Call it with a flag sunpaper.sh --waybar
+# Call it within waybar with a flag sunpaper.sh --waybar
+#
+# See the wiki for more details: 
+# https://github.com/hexive/sunpaper/wiki/as-waybar
 
 # Set the icon display for that here
 status_icon=""
@@ -151,8 +192,9 @@ wallpaperModeOguri="fill"
 #3.01 - new waybar feature
 #3.03 - pywall integration
 #3.05 - oguri integration
+#3.17 - moonphase & weather
 
-version="3.05"
+version="3.17"
 
 # Check for external config file
 CONFIG_FILE=$HOME/.config/sunpaper/config
@@ -168,6 +210,7 @@ cachePath=$(echo "$cachePath" | sed 's:/*$::')
 cacheFileWall="$cachePath/sunpaper_cache.wallpaper"
 cacheFileDay="$cachePath/sunpaper_cache.day"
 cacheFileNight="$cachePath/sunpaper_cache.night"
+cacheFileWeather="$cachePath/sunpaper_cache.weather"
 
 set_cache(){
 
@@ -178,6 +221,7 @@ set_cache(){
         echo "0" > "$cacheFileWall"
         currentpaper=0
     fi
+
 }
 
 clear_cache(){
@@ -203,6 +247,13 @@ clear_cache(){
         echo "cleared darkmode night cache"
     else 
         echo "no darkmode night cache found"
+    fi
+
+    if [ -f "$cacheFileWeather" ]; then
+        rm "$cacheFileWeather"
+        echo "cleared weather cache"
+    else 
+        echo "no weather cache found"
     fi
 }
 
@@ -230,6 +281,17 @@ get_suntimes(){
     twilightMid=$(date -d "$get_sunset 30 minutes ago" +"%s");
     twilightLate=$(date -d "$get_sunset 15 minutes ago" +"%s");
     sunset=$(date -d "$get_sunset" +"%s");
+
+    ## Wallpaper Display Logic
+    #1.jpg - after sunset until sunrise (sunset-sunrise)
+    #2.jpg - sunrise for 15 min (sunrise - sunriseMid)
+    #3.jpg - 15 min after sunrise for 15 min (sunriseMid-sunriseLate)
+    #4.jpg - 30 min after sunrise for 1 hour (sunriseLate-dayLight)
+    #5.jpg - day light between sunrise and sunset events (dayLight-twilightEarly)
+    #6.jpg - 1.5 hours before sunset for 1 hour (twilightEarly-twilightMid)
+    #7.jpg - 30 min before sunset for 15 min (twilightMid-twilightLate)
+    #8.jpg - 15 min before sunset for 15 min (twilightLate-sunset)
+
 }
 
 get_sunpoll(){
@@ -251,6 +313,10 @@ show_suntimes(){
     echo "Current Time: " $(date -d "@$currenttime" +"%H:%M")
     echo "Current Paper: $currentpaper.jpg"
     [[ "$darkmode_enable" == "true" ]] && echo "Darkmode Status: $sun_poll"
+    if [[ "$weather_enable" == "true" ]] && [[ -f "$cacheFileWeather" ]];then
+        showWeather=$( cat < "$cacheFileWeather" )
+        echo "Weather Status: ${showWeather^^}"
+    fi
     echo ""
     echo $(date -d "@$sunrise" +"%H:%M") "- Sunrise (2.jpg)"
     echo $(date -d "@$sunriseMid" +"%H:%M") "- Sunrise Mid (3.jpg)"
@@ -275,127 +341,117 @@ show_suntimes_waybar(){
     exit 0
 }
 
-## Wallpaper Display Logic
-#1.jpg - after sunset until sunrise (sunset-sunrise)
-#2.jpg - sunrise for 15 min (sunrise - sunriseMid)
-#3.jpg - 15 min after sunrise for 15 min (sunriseMid-sunriseLate)
-#4.jpg - 30 min after sunrise for 1 hour (sunriseLate-dayLight)
-#5.jpg - day light between sunrise and sunset events (dayLight-twilightEarly)
-#6.jpg - 1.5 hours before sunset for 1 hour (twilightEarly-twilightMid)
-#7.jpg - 30 min before sunset for 15 min (twilightMid-twilightLate)
-#8.jpg - 15 min before sunset for 15 min (twilightLate-sunset)
-
 set_paper(){
 
-if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
-    
-    if [[ $currentpaper != 2 ]]; then
-        image=2
-        setpaper_construct
-        sed -i "s/./$image/g" "$cacheFileWall"
-        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
+    if [ "$currenttime" -ge "$sunrise" ] && [ "$currenttime" -lt "$sunriseMid" ]; then
+        
+        if [[ $currentpaper != 2 ]]; then
+            image=2
+            sed -i "s/./$image/g" "$cacheFileWall"
+            setpaper_construct
+        fi
+
+    elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate" ]; then
+      
+        if [[ $currentpaper != 3 ]]; then
+            image=3
+            sed -i "s/./$image/g" "$cacheFileWall"
+            setpaper_construct
+        fi
+
+    elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]; then
+       
+        if [[ $currentpaper != 4 ]]; then
+            image=4
+            sed -i "s/./$image/g" "$cacheFileWall"
+            setpaper_construct
+        fi
+
+    elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly" ]; then
+        
+        if [[ $currentpaper != 5 ]]; then
+            image=5
+            sed -i "s/./$image/g" "$cacheFileWall"
+            setpaper_construct
+        fi
+
+    elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightMid" ]; then
+        
+        if [[ $currentpaper != 6 ]]; then
+            image=6
+            sed -i "s/./$image/g" "$cacheFileWall"
+            setpaper_construct
+    	fi
+
+    elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLate" ]; then
+       
+        if [[ $currentpaper != 7 ]]; then
+            image=7
+            sed -i "s/./$image/g" "$cacheFileWall"  
+            setpaper_construct
+        fi
+
+    elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ]; then
+
+    	if [[ $currentpaper != 8 ]]; then
+            image=8
+            sed -i "s/./$image/g" "$cacheFileWall"
+            setpaper_construct
+    	fi
+
+    else 
+    	if [[ $currentpaper != 1 ]]; then
+            image=1
+        	sed -i "s/./$image/g" "$cacheFileWall"
+            setpaper_construct
+        fi
     fi
-
-elif [ "$currenttime" -ge "$sunriseMid" ] && [ "$currenttime" -lt "$sunriseLate" ]; then
-  
-    if [[ $currentpaper != 3 ]]; then
-        image=3
-        setpaper_construct
-        sed -i "s/./$image/g" "$cacheFileWall"
-        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
-    fi
-
-elif [ "$currenttime" -ge "$sunriseLate" ] && [ "$currenttime" -lt "$dayLight" ]; then
-   
-    if [[ $currentpaper != 4 ]]; then
-        image=4
-        setpaper_construct
-        sed -i "s/./$image/g" "$cacheFileWall"
-        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
-    fi
-
-elif [ "$currenttime" -ge "$dayLight" ] && [ "$currenttime" -lt "$twilightEarly" ]; then
-    
-    if [[ $currentpaper != 5 ]]; then
-        image=5
-        setpaper_construct
-        sed -i "s/./$image/g" "$cacheFileWall"
-        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
-    fi
-
-elif [ "$currenttime" -ge "$twilightEarly" ] && [ "$currenttime" -lt "$twilightMid" ]; then
-    
-    if [[ $currentpaper != 6 ]]; then
-        image=6
-        setpaper_construct
-        sed -i "s/./$image/g" "$cacheFileWall"
-        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
-	fi
-
-elif [ "$currenttime" -ge "$twilightMid" ] && [ "$currenttime" -lt "$twilightLate" ]; then
-   
-    if [[ $currentpaper != 7 ]]; then
-        image=7
-        setpaper_construct
-        sed -i "s/./$image/g" "$cacheFileWall"  
-        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
-    fi
-
-elif [ "$currenttime" -ge "$twilightLate" ] && [ "$currenttime" -lt "$sunset" ]; then
-
-	if [[ $currentpaper != 8 ]]; then
-        image=8
-        setpaper_construct
-        sed -i "s/./$image/g" "$cacheFileWall"
-        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
-	fi
-
-else 
-	if [[ $currentpaper != 1 ]]; then
-        image=1
-    	setpaper_construct
-    	sed -i "s/./$image/g" "$cacheFileWall"
-        [[ "$pywalmode_enable" == "true" ]] && pywal_construct
-    fi
-fi
-}
-
-show_help(){
-
-cat << EOF  
-Sunpaper Option Flags (flags cannot be combined)
-
--h, --help,     Help! Show the option flags available.
-
--r, --report,   Report! Show a table of all the time 
-                events for the wallpaper today.
-
--c, --clear,    Clear! Use this to clear the cache file. 
-                Call this after any configuration change 
-                to force a wallpaper update.
-
--t, --time,     Time! Want to see what will happen 
-                later today? This option will set a custom 
-                time so you can see what your wallpaper will 
-                look like then. Must be in HH:MM format. 
-                (-t 06:12)
-
--w, --waybar,   Waybar! Use sway/waybar? Call sunpaper.sh with this 
-                flag in the waybar config and it will display
-                an icon in the bar and show the full sun time report
-                as a tooltip.
-
-EOF
 }
 
 setpaper_construct(){
+
+    ################
+    # Weather
+
+    if [[ "$weather_enable" == "true" ]] && [[ "$wallpaperPath" == *"Corporate-Synergy"* ]];then 
+
+        #currentWeather should already be set 
+        #cloud is both the default weather and not in special directory
+        if [[ -z ${currentWeather+x} ]] || [[ "$currentWeather" == "cloud" ]]; then
+            #keep defaults
+            true
+
+        else
+            #update wallpaper path with correct weather directory
+            wallpaperPath="$wallpaperPath/$currentWeather"
+
+        fi
+    fi
+
+
+    ################
+    # m-o-o-n that spells tom cullen
+
+    if [ "$moonphase_enable" == "true" ] && [[ "$wallpaperPath" == *"Corporate-Synergy"* ]];then 
+
+        if [ $image == 1 ] || [ $image == 2 ] || [ $image == 8 ];then
+
+            get_moonphase
+            # update $image used below with new path and moonphase addendum
+            image="moons/$image$phase_addendum"
+        fi
+    fi
+
+
+    ################
+    # Oguri
 
     if [ "$oguri_enable" == "true" ];then 
 
         # Check for oguri socket and launch it if it isn't running
         exec_oguri
 
-        #is there a need to make this configurable?
+        #TODO: is there a need to make this configurable?
         #output $display_output
 
         # it takes awhile for that socket to start so make sure there's success before moving on
@@ -405,10 +461,17 @@ setpaper_construct(){
         done
 
     else
+        ################
+        # Walutil - default
 
-        # Use walutil setwallpaper
         setwallpaper -m "$wallpaperMode" "$wallpaperPath"/"$image".jpg
     fi
+
+    ################
+    # Pywal
+
+    [[ "$pywalmode_enable" == "true" ]] && pywal_construct
+
 }
 
 pywal_construct(){
@@ -448,6 +511,129 @@ local_darkmode(){
     fi
 }
 
+get_moonphase(){
+  
+    # from https://gist.github.com/zuloo/f2fed0de6ddbc0d25e2e
+    # which appears to take from 
+    # https://github.com/nikospag/bash-moon-phase/blob/master/Moon_old
+
+    lp=2551443 #Lunar period (unix time in seconds)=29.53 days
+    now=$(date -u +"%s") #Time now (unix time)
+    newmoon=592500 #Known new moon time (unix time). 7 Jan 1970 20:35
+    phase=$((($now - $newmoon) % $lp))
+
+
+    # Multiply by 100000 so we can do integer comparison.  Go Bash!
+    phase_number=$((((phase / 86400) + 1)*100000))
+
+    if   [ $phase_number -lt 184566 ];  then phase_addendum="-1"  # new
+    elif [ $phase_number -lt 553699 ];  then phase_addendum="-2"  # waxing crescent
+    elif [ $phase_number -lt 922831 ];  then phase_addendum="-3"  # first quarter
+    elif [ $phase_number -lt 1291963 ]; then phase_addendum="-4"  # waxing gibbous
+    elif [ $phase_number -lt 1661096 ]; then phase_addendum="-5"  # full
+    elif [ $phase_number -lt 2030228 ]; then phase_addendum="-6"  # waning gibbous
+    elif [ $phase_number -lt 2399361 ]; then phase_addendum="-7"  # last quarter
+    elif [ $phase_number -lt 2768493 ]; then phase_addendum="-8"  # waning crescent
+    else
+    phase_addendum="-1"  # new
+    fi
+}
+
+check_weather() {
+
+    if [ -f "$cacheFileWeather" ]; then
+
+        #how much time has passed since weather cache was last modified?
+        lastModificationSeconds=$(date +%s -r $cacheFileWeather)
+        currentSeconds=$(date +%s)
+        compareSeconds=$(($lastModificationSeconds + 1200))
+
+        if [[ "$compareSeconds" -lt "$currentSeconds" ]]; then
+
+            #cache was modified more than 20 min ago
+            get_weather
+            cacheWeather=$( cat < "$cacheFileWeather" );
+            
+            if [[ "$currentWeather" = "$cacheWeather" ]]; then
+
+                # weather hasn't changed
+                touch "$cacheFileWeather"
+            
+            else
+                # weather has changed
+                # set new cacheFileWeather
+                sed -i "s/.*/$currentWeather/g" "$cacheFileWeather"
+
+                # set new paper 
+                image=$currentpaper
+                setpaper_construct
+
+            fi
+        else
+            #cache was not modified more than 20 min ago
+            currentWeather=$( cat < "$cacheFileWeather" );
+
+        fi
+        
+    else 
+        #no cache file found
+        get_weather
+
+        #set new cache
+        touch "$cacheFileWeather"
+        echo "$currentWeather" > "$cacheFileWeather"
+
+    fi
+}
+
+get_weather(){
+    weather_info=""
+    weather_main=""
+
+    weather_url="http://api.openweathermap.org/data/2.5/weather?id=${weather_city_id}&appid=${weather_api_key}&units=Imperial"
+
+    # Allow for weather testing from --sky flag
+    if [ "$test_weather" ]; then
+        weather_main=$test_weather
+
+    else
+        weather_info=$(wget -qO- "$weather_url")
+        weather_main=$(echo "$weather_info" | grep -o -e '\"main\":\"[a-Z]*\"' | awk -F ':' '{print $2}' | tr -d '"')
+
+    fi
+
+
+    if [[ "$weather_main" = "" ]] ; then
+            # this probably means the network connection is down
+            # TODO: special handling of this case -- check every minute until it's reestablished?
+            #currentWeather="unknown"
+            currentWeather="cloud"
+
+    else 
+
+        # TODO: HO HO HO we need some snow wallpapers
+        # [[ "$weather_main" = *Snow* ]]
+
+        if [[ "$weather_main" = *Rain* ]] || [[ "${weather_main}" = *Drizzle* ]]; then
+            currentWeather="rain"
+
+        elif [[ "$weather_main" = *Thunderstorm* ]] || [[ "$weather_main" = *Extreme* ]] || [[ "$weather_main" = *Squall* ]] || [[ "$weather_main" = *Tornado* ]]; then
+            currentWeather="storm"
+
+        elif [[ "$weather_main" = *Clear* ]]; then
+            currentWeather="clear"
+
+        elif [[ "$weather_main" = *Fog* ]] || [[ "$weather_main" = *Mist* ]] || [[ "$weather_main" = *Haze* ]]|| [[ "$weather_main" = *Smoke* ]]|| [[ "$weather_main" = *Dust* ]]|| [[ "$weather_main" = *Sand* ]]|| [[ "$weather_main" = *Ash* ]]; then
+            currentWeather="fog"
+
+        else
+            currentWeather="cloud"
+
+        fi
+
+    fi
+}
+
 exec_oguri(){
 
     #Check if oguri socket is already running
@@ -458,6 +644,42 @@ exec_oguri(){
         nohup oguri -c "$oguri_config" > /dev/null 2>&1 &
     fi
 }
+
+show_help(){
+
+cat << EOF  
+Sunpaper Option Flags
+
+-h, --help,     Help! Show the option flags available.
+
+-r, --report,   Report! Show a table of all the time 
+                events for the wallpaper today.
+
+-c, --clear,    Clear! Use this to clear the cache file. 
+                Call this after any configuration change 
+                to force a wallpaper update.
+
+-t, --time,     Time! Want to see what will happen 
+                later today? This option will set a custom 
+                time so you can see what your wallpaper will 
+                look like then. Must be in HH:MM format. 
+                (-t 06:12)
+
+-s, --sky,      Sky! A weather testing flag. Set conditions
+                here to see what your wallpaper will look
+                like in different weather (weather is normally
+                cached for 20 min so you may need to call -c 
+                first to see changes)
+                Clear | Clouds | Rain | Thunderstorm | Fog  
+
+-w, --waybar,   Waybar! Use sway/waybar? Call sunpaper.sh with this 
+                flag in the waybar config and it will display
+                an icon in the bar and show the full sun time report
+                as a tooltip.
+
+EOF
+}
+
 
 while :; do
     case $1 in
@@ -470,12 +692,20 @@ while :; do
             get_currenttime
             get_suntimes
             get_sunpoll
-            show_suntimes  
+            show_suntimes 
             exit             
         ;;
         -c|--clear) 
             clear_cache
             exit             
+        ;;
+        -s|--sky) 
+        if [ "$2" ]; then
+            test_weather=$2
+            shift
+        else
+            exit
+        fi               
         ;;
         -t|--time)
         if [ "$2" ]; then
@@ -499,6 +729,11 @@ done
 get_currenttime
 get_suntimes
 set_cache
+
+if [[ "$weather_enable" == "true" ]];then
+    check_weather
+fi
+
 set_paper
 
 if [ "$darkmode_enable" == "true" ]; then
