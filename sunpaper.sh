@@ -553,7 +553,8 @@ check_weather() {
         #how much time has passed since weather cache was last modified?
         lastModificationSeconds=$(date +%s -r $cacheFileWeather)
         currentSeconds=$(date +%s)
-        compareSeconds=$(($lastModificationSeconds + 1200))
+        #1200 - 20 min / 300 - 5 min
+        compareSeconds=$(($lastModificationSeconds + 300))
 
         if [[ "$compareSeconds" -lt "$currentSeconds" ]]; then
 
@@ -606,16 +607,22 @@ get_weather(){
     else
         weather_info=$(wget -qO- "$weather_url")
         weather_main=$(echo "$weather_info" | grep -o -e '\"main\":\"[a-Z]*\"' | awk -F ':' '{print $2}' | tr -d '"')
-
     fi
 
 
     if [[ "$weather_main" = "" ]] ; then
-            # this probably means the network connection is down
-            # TODO: special handling of this case -- check every minute until it's reestablished?
+            # this probably means the network connection to the API is down
+            # TODO: special handling of this case 
+            #    -- check every minute until it's reestablished?
             #currentWeather="unknown"
-            currentWeather="cloud"
 
+            #if cache value exists use that, else set cloud default
+                if [[ -f "$cacheFileWeather" ]];then
+                    currentWeather=$( cat < "$cacheFileWeather" )
+                else
+                    currentWeather="cloud"
+                fi
+                
     else 
 
         # TODO: HO HO HO we need some snow wallpapers
@@ -655,7 +662,7 @@ exec_oguri(){
 show_help(){
 
 cat << EOF  
-Sunpaper Option Flags
+Sunpaper Option Flags (cannot be combined)
 
 -h, --help,     Help! Show the option flags available.
 
@@ -675,8 +682,8 @@ Sunpaper Option Flags
 -s, --sky,      Sky! A weather testing flag. Set conditions
                 here to see what your wallpaper will look
                 like in different weather (weather is normally
-                cached for 20 min so you may need to call -c 
-                first to see changes)
+                cached for a period of time so you may need to 
+                call -c first to see changes)
                 Clear | Clouds | Rain | Thunderstorm | Fog  
 
 -w, --waybar,   Waybar! Use sway/waybar? Call sunpaper.sh with this 
