@@ -18,7 +18,7 @@ Compatible with any distribution and window manager (X or wayland).
 ## Optional Extras
 
 - [x] [Live Weather mode](https://github.com/hexive/sunpaper/wiki/Live-Weather-Mode) - show wallpapers based on weather outside
-- [x] [Moonphase Mode](https://github.com/hexive/sunpaper/wiki/Darkmode) - show wallpapers reflecting the correct moonphase
+- [x] [Moonphase Mode](https://github.com/hexive/sunpaper/wiki/Moonphase-Mode) - show wallpapers reflecting the correct phase of the moon.
 - [x] [Darkmode](https://github.com/hexive/sunpaper/wiki/Darkmode) - run external scripts on a day/night trigger
 - [x] [Pywal mode](https://github.com/hexive/sunpaper/wiki/Pywal-Mode) - get on-the-fly color scheme changes for each wallpaper change.
 - [x] [Waybar mode](https://github.com/hexive/sunpaper/wiki/Waybar-Mode) - display icon and transition report as tooltip
