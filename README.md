@@ -73,3 +73,4 @@ Sunpaper also works with the following external themes. These wallpaper images a
 |Lakeside|
 |--|
 |![Thumbnail](https://raw.githubusercontent.com/hexive/sunpaper/main/screenshots/lakeside-200.jpg)|
+
