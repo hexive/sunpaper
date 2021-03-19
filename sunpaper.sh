@@ -606,7 +606,7 @@ get_weather(){
 
     else
         weather_info=$(wget -qO- "$weather_url")
-        weather_main=$(echo "$weather_info" | grep -o -e '\"main\":\"[a-Z]*\"' | awk -F ':' '{print $2}' | tr -d '"')
+        weather_main=$(echo "$weather_info" | grep -o -e '\"main\":\"[a-zA-Z]*\"' | awk -F ':' '{print $2}' | tr -d '"')
     fi
 
 
@@ -637,7 +637,7 @@ get_weather(){
         elif [[ "$weather_main" = *Clear* ]]; then
             currentWeather="clear"
 
-        elif [[ "$weather_main" = *Fog* ]] || [[ "$weather_main" = *Haze* ]]|| [[ "$weather_main" = *Smoke* ]]|| [[ "$weather_main" = *Dust* ]]|| [[ "$weather_main" = *Sand* ]]|| [[ "$weather_main" = *Ash* ]]; then
+        elif [[ "$weather_main" = *Fog* ]] || [[ "$weather_main" = *Haze* ]] || [[ "$weather_main" = *Smoke* ]] || [[ "$weather_main" = *Dust* ]] || [[ "$weather_main" = *Sand* ]] || [[ "$weather_main" = *Ash* ]]; then
             currentWeather="fog"
 
         else
