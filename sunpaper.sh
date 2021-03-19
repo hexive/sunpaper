@@ -521,28 +521,22 @@ local_darkmode(){
 
 get_moonphase(){
   
-    # from https://gist.github.com/zuloo/f2fed0de6ddbc0d25e2e
-    # which appears to take from 
-    # https://github.com/nikospag/bash-moon-phase/blob/master/Moon_old
+    # adapted from https://github.com/nikospag/bash-moon-phase/blob/master/Moon_old
 
     lp=2551443 #Lunar period (unix time in seconds)=29.53 days
     now=$(date -u +"%s") #Time now (unix time)
     newmoon=592500 #Known new moon time (unix time). 7 Jan 1970 20:35
     phase=$((($now - $newmoon) % $lp))
+    phase_number=$(echo 'scale=0; '${phase}'/86.400' | bc -l)
 
-    # Multiply by 100000 so we can do integer comparison.  Go Bash!
-    phase_number=$((((phase / 86400) + 1)*100000))
-
-    if   [ $phase_number -lt 184566 ];  then phase_addendum="-1"  # new
-    elif [ $phase_number -lt 553699 ];  then phase_addendum="-2"  # waxing crescent
-    elif [ $phase_number -lt 922831 ];  then phase_addendum="-3"  # first quarter
-    elif [ $phase_number -lt 1291963 ]; then phase_addendum="-4"  # waxing gibbous
-    elif [ $phase_number -lt 1661096 ]; then phase_addendum="-5"  # full
-    elif [ $phase_number -lt 2030228 ]; then phase_addendum="-6"  # waning gibbous
-    elif [ $phase_number -lt 2399361 ]; then phase_addendum="-7"  # last quarter
-    elif [ $phase_number -lt 2768493 ]; then phase_addendum="-8"  # waning crescent
-    else
-    phase_addendum="-1"  # new
+    if [[ $phase_number -ge 0 ]] && [[ $phase_number -lt 1000 ]];  then phase_addendum="-1"  # new
+    elif [[ $phase_number -ge 1000 ]] && [[ $phase_number -lt 6560 ]];  then phase_addendum="-2"  # waxing crescent
+    elif [[ $phase_number -ge 6560 ]] && [[ $phase_number -lt 7560 ]];  then phase_addendum="-3"  # first quarter
+    elif [[ $phase_number -ge 7560 ]] && [[ $phase_number -lt 14265 ]]; then phase_addendum="-4"  # waxing gibbous
+    elif [[ $phase_number -ge 14265 ]] && [[ $phase_number -lt 15265 ]]; then phase_addendum="-5"  # full
+    elif [[ $phase_number -ge 15265 ]] && [[ $phase_number -lt 21260 ]]; then phase_addendum="-6"  # waning gibbous
+    elif [[ $phase_number -ge 21260 ]] && [[ $phase_number -lt 22260 ]]; then phase_addendum="-7"  # last quarter
+    elif [[ $phase_number -ge 22260 ]] && [[ $phase_number -lt 29530 ]]; then phase_addendum="-8"  # waning crescent
     fi
 }
 
