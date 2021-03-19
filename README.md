@@ -30,12 +30,18 @@ Compatible with any distribution and window manager (X or wayland).
 - [ ] More custom status bar modes  
 
 
+## Install
+
+Check the [wiki](https://github.com/hexive/sunpaper/wiki) for full documentation about install, configuration, tips & tricks, etc
+1. [Install](https://github.com/hexive/sunpaper/wiki/Install) 
+1. [Configure](https://github.com/hexive/sunpaper/wiki/Configure) 
+1. [Test it](https://github.com/hexive/sunpaper/wiki/Test-it) 
+1. [Set it to run automatically](https://github.com/hexive/sunpaper/wiki/Set-it-to-run-automatically) 
+
+
 ## Why Sunpaper?
 
 Dynamic wallpapers are awesome, but transitions are usually based on static timetables. I wanted something that could adapt to sunrise and sunset changes over the year without any input from me. The idea is to as closely recreate the Apple Big Sur Dynamic Desktop behavior as possible.
-
-
-## [[Install]](https://github.com/hexive/sunpaper/wiki/Install) [[Configure]](https://github.com/hexive/sunpaper/wiki/Configure) [[Test]](https://github.com/hexive/sunpaper/wiki/Test-it) [[Automate]](https://github.com/hexive/sunpaper/wiki/Set-it-to-run-automatically) [[Wiki]](https://github.com/hexive/sunpaper/wiki)
 
 
 ## Wallpaper Previews
