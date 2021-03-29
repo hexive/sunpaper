@@ -413,7 +413,7 @@ setpaper_construct(){
     ################
     # Weather
 
-    if [[ "$weather_enable" == "true" ]] && [[ "$wallpaperPath" == *"Corporate-Synergy"* ]];then 
+    if [[ "$weather_enable" == "true" ]] && [[ -f "$wallpaperPath/rain/1.jpg" ]];then 
 
         #currentWeather should already be set 
         #cloud is both the default weather and not in special directory
@@ -432,7 +432,7 @@ setpaper_construct(){
     ################
     # m-o-o-n that spells tom cullen
 
-    if [ "$moonphase_enable" == "true" ] && [[ "$wallpaperPath" == *"Corporate-Synergy"* ]];then 
+    if [ "$moonphase_enable" == "true" ] && [[ -f "$wallpaperPath/moons/1-1.jpg" ]];then 
 
         if [ $image == 1 ] || [ $image == 2 ] || [ $image == 8 ];then
 
@@ -524,19 +524,22 @@ get_moonphase(){
     # adapted from https://github.com/nikospag/bash-moon-phase/blob/master/Moon_old
 
     lp=2551443 #Lunar period (unix time in seconds)=29.53 days
-    now=$(date -u +"%s") #Time now (unix time)
+    now=$(date -u +"%s") #Time now (unix time UTC)
     newmoon=592500 #Known new moon time (unix time). 7 Jan 1970 20:35
     phase=$((($now - $newmoon) % $lp))
     phase_number=$(echo 'scale=0; '${phase}'/86.400' | bc -l)
 
+    #new moon math -- showing new quarter and full moons for aprox 2 days
+
     if [[ $phase_number -ge 0 ]] && [[ $phase_number -lt 1000 ]];  then phase_addendum="-1"  # new
-    elif [[ $phase_number -ge 1000 ]] && [[ $phase_number -lt 6560 ]];  then phase_addendum="-2"  # waxing crescent
-    elif [[ $phase_number -ge 6560 ]] && [[ $phase_number -lt 7560 ]];  then phase_addendum="-3"  # first quarter
-    elif [[ $phase_number -ge 7560 ]] && [[ $phase_number -lt 14265 ]]; then phase_addendum="-4"  # waxing gibbous
-    elif [[ $phase_number -ge 14265 ]] && [[ $phase_number -lt 15265 ]]; then phase_addendum="-5"  # full
-    elif [[ $phase_number -ge 15265 ]] && [[ $phase_number -lt 21260 ]]; then phase_addendum="-6"  # waning gibbous
-    elif [[ $phase_number -ge 21260 ]] && [[ $phase_number -lt 22260 ]]; then phase_addendum="-7"  # last quarter
-    elif [[ $phase_number -ge 22260 ]] && [[ $phase_number -lt 29530 ]]; then phase_addendum="-8"  # waning crescent
+    elif [[ $phase_number -ge 1000 ]] && [[ $phase_number -lt 6382 ]];  then phase_addendum="-2"  # waxing crescent
+    elif [[ $phase_number -ge 6382 ]] && [[ $phase_number -lt 8382 ]];  then phase_addendum="-3"  # first quarter
+    elif [[ $phase_number -ge 8382 ]] && [[ $phase_number -lt 13765 ]]; then phase_addendum="-4"  # waxing gibbous
+    elif [[ $phase_number -ge 13765 ]] && [[ $phase_number -lt 15765 ]]; then phase_addendum="-5"  # full
+    elif [[ $phase_number -ge 15765 ]] && [[ $phase_number -lt 21147 ]]; then phase_addendum="-6"  # waning gibbous
+    elif [[ $phase_number -ge 21147 ]] && [[ $phase_number -lt 23147 ]]; then phase_addendum="-7"  # last quarter
+    elif [[ $phase_number -ge 23147 ]] && [[ $phase_number -lt 28530 ]]; then phase_addendum="-8"  # waning crescent
+    else phase_addendum="-1" # back to new
     fi
 }
 
