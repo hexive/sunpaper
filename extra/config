@@ -1,0 +1,170 @@
+#!/bin/bash
+
+##CONFIG OPTIONS---------------------------------
+
+# This script also has some testing functions that 
+# can be called with option flags. 
+# Check sunpaper -h 
+
+# There's also pretty good documentation on the wiki
+# https://github.com/hexive/sunpaper/wiki
+
+#################################################
+# BASIC CONFIGURATION
+#################################################
+
+# Set your local latitude and longitude for sun calculations
+latitude="38.9072N"
+longitude="77.0369W"
+
+# Set full path to the wallpaper theme folder
+# Theme folder names:
+#
+# Blake Watson & Sunpaper: Corporate-Synergy
+# Apple: The-Beach The-Cliffs The-Lake The-Desert
+# Louis Coyle: Lakeside
+# 
+wallpaperPath="$HOME/sunpaper/images/Corporate-Synergy"
+
+# Set how you want your wallpaper displayed
+# stretch | center | tile | scale | zoom | fill
+wallpaperMode="scale"
+
+# Sunpaper writes some cache files to keep track of 
+# persistent variables.
+#
+# NOTE: call sunpaper.sh -c to clear cache contents. This
+# will force a wallpaper reload after configuration changes.
+#
+# Set a different folder for this file or just leave
+# it as the default.
+cachePath="$HOME/.cache"
+
+
+# The rest of these are optional configuration modes
+#
+#################################################
+# Moonphase Mode
+#################################################
+# Show a wallpaper with the correct moonphase for
+# today's date.
+#
+# This only works with Corporate-Synergy theme so 
+# make sure it's already set as your theme choice.
+#
+# moonphase_enable="true"
+moonphase_enable="false"
+
+
+#################################################
+# Live Weather Mode
+#################################################
+# Show a wallpaper that reflects the current weather
+# conditions outside.
+#
+# This only works with Corporate-Synergy theme so 
+# make sure it's already set as your theme choice.
+#
+# weather_enable="true"
+weather_enable="false"
+
+# We're using an API from openweathermap.org
+# to get your local conditions. You'll need to sign
+# up for a free API Key and set it below:
+# https://openweathermap.org/price
+#
+weather_api_key=""
+
+# Set your openweather city id number here.
+# Check on http://openweathermap.org/find
+#
+weather_city_id="4140963"
+
+
+#################################################
+# DARKMODE
+#################################################
+# You may use script to trigger a darkmode on your desktop
+# or any other actions you want to preform on day / night.
+# This feature is disabled by default but you can enable
+# it here like:
+# darkmode_enable="true"
+darkmode_enable="false"
+
+# And if darkmode is enabled, use these two lines
+# to set the the external command to run on day / night.
+# example: 
+# darkmode_run_day="/path/to/switch.sh light"
+darkmode_run_day=""
+darkmode_run_night=""
+
+
+#################################################
+# PYWAL MODE 
+# requires pywal (https://github.com/dylanaraps/pywal)
+#################################################
+# Sunpaper can call pywal to set a new color scheme
+# on each wallpaper image change. 
+# pywalmode_enable="true"
+pywalmode_enable="false"
+
+# If you like to use pywal with specific options 
+# you may set them here. 
+#
+# Set pywal options that will always be used
+# for example: 
+#pywal_options="-e --backend colorthief"
+pywal_options=""
+
+# Set pywal options that will be used only during
+# the DAY or NIGHT for example:
+#pywal_options_day="-l"
+pywal_options_day=""
+pywal_options_night=""
+
+# Some pywal options like themes would be in conflict
+# with setting colors by image. If you wish to use 
+# pywal theme colors instead, then switch these to false to 
+# disable pywal from setting colors by image.
+pywal_image_day="true"
+pywal_image_night="true"
+
+
+#################################################
+# SWAY / WAYBAR MODE
+#################################################
+# Sunpaper has a special mode for use with sway/waybar 
+# It displays an icon and sun times report as a tooltip.
+# Call it within waybar with a flag sunpaper.sh --waybar
+#
+# See the wiki for more details: 
+# https://github.com/hexive/sunpaper/wiki/as-waybar
+
+# Set the icon display for that here
+status_icon=""
+
+
+#################################################
+# SWAY / OGURI MODE 
+# requires (https://github.com/vilhalmer/oguri)
+#################################################
+# Sway has an known issue https://github.com/swaywm/sway/issues/3693
+# that causes a gray flash whenever changing wallpaper.
+# Oguri uses an IPC which allows for smoother
+# no-flash wallpaper changes in sway.
+#
+# enable this mode here with 
+# oguri_enable="true"
+oguri_enable="false"
+
+# oguri should already be installed and configured.
+# sunpaper will launch the oguri socket with the
+# location of your oguri configuration file set here
+oguri_config="$HOME/.config/oguri/config"
+
+# oguri takes three options for wallpaper display
+# fill | tile | stretch
+wallpaperModeOguri="fill"
+
+
+##CONFIG OPTIONS END---------------------------- 
