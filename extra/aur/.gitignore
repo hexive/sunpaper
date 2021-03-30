@@ -1,0 +1,5 @@
+config
+pkg
+src
+sunpaper
+sunpaper-*.pkg.tar.zst
