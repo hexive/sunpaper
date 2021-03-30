@@ -1,7 +1,9 @@
+# Put the right maintainer email & handle the AUR upload
 # Maintainer: Your Name <youremail@domain.com>
 
 pkgname=sunpaper-git
-pkgver=r88.3336299
+# This has to be adapted
+pkgver=r90.8e41841
 pkgrel=1
 pkgdesc=""
 arch=("any")
@@ -16,6 +18,7 @@ replaces=()
 backup=()
 options=()
 install=
+# This has to be reverted before merging
 # source=('git+https://github.com/hexive/sunpaper.git')
 source=('git+https://github.com/nmiculinic/sunpaper.git')
 noextract=()
@@ -24,24 +27,19 @@ md5sums=('SKIP')
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
 
-# Git, tags available
+    # Git, tags available
 	# printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
 
-# Git, no tags available
+    # Git, no tags available
 	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 package() {
-    # had some issues getting this working
-    install -D -m644 ../sunpaper.service "$pkgdir/usr/lib/systemd/user/sunpaper.service"
-    install -D -m644 ../sunpaper.timer "$pkgdir/usr/lib/systemd/user/sunpaper.timer"
-
 	cd "$srcdir/${pkgname%-git}"
     install -D -m755 sunpaper.sh "$pkgdir/usr/bin/sunpaper.sh"
     mkdir -p "$pkgdir/usr/share/sunpaper"
     cp -dr images "$pkgdir/usr/share/sunpaper/images"
     install -D -m644 extra/config "$pkgdir/usr/share/sunpaper/config"
-
-    # install -D -m644 extra/aur/sunpaper.service "$pkgdir/usr/lib/systemd/user/sunpaper.service"
-    # install -D -m644 extra/aur/sunpaper.timer "$pkgdir/usr/lib/systemd/user/sunpaper.timer"
+    install -D -m644 extra/aur/sunpaper.service "$pkgdir/usr/lib/systemd/user/sunpaper.service"
+    install -D -m644 extra/aur/sunpaper.timer "$pkgdir/usr/lib/systemd/user/sunpaper.timer"
 }
