@@ -657,8 +657,7 @@ exec_oguri(){
 }
 
 pkill_daemon(){
-
-    #does this need to be smarter?
+    #TODO: does this need to be smarter?
     echo "The Sunpaper daemon has stopped."
     pkill sunpaper.sh > /dev/null 2>&1 &
 
@@ -778,17 +777,21 @@ main(){
 
 if [ "$daemon_enable" == "true" ]; then
 
+    #Clear cache for first run 
+    clear_cache > /dev/null 2>&1
+
+    #Always call main 
+    #to make sure paper is still set for WM logout/login if daemon already exists, etc)
+    main
+
+    #TODO: maybe this should be quiet?
+    echo "The Sunpaper daemon has started -- use sunpaper.sh -k to stop it."
+
     #Try to prevent generating duplicate daemons.
     if [[ $(pgrep -c "sunpaper.sh") -gt 1 ]] ;then
         #do nothing
         true
     else
-        #Clear cache for first run 
-        clear_cache > /dev/null 2>&1
-
-        #TODO make this quiet?
-        echo "The Sunpaper daemon has started -- use sunpaper.sh -k to stop it."
-
         #Then loop forever
         while :; do
             main &
