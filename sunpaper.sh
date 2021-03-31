@@ -656,6 +656,14 @@ exec_oguri(){
     fi
 }
 
+pkill_daemon(){
+
+    #does this need to be smarter?
+    echo "The Sunpaper daemon has stopped."
+    pkill sunpaper.sh > /dev/null 2>&1 &
+
+}
+
 show_help(){
 
 cat << EOF  
@@ -688,9 +696,14 @@ Sunpaper Option Flags (cannot be combined)
                 an icon in the bar and show the full sun time report
                 as a tooltip.
 
+-d, --daemon,   Daemon! Start sunpaper with this flag and it will
+                run continuiously in the background.
+
+-k, --kill,     Kill! Use this flag if you'd like to stop the 
+                sunpaper daemon.
+
 EOF
 }
-
 
 while :; do
     case $1 in
@@ -730,27 +743,58 @@ while :; do
         -w|--waybar) 
             waybarmode_enable="true"
             shift
+                ;;
+        -d|--daemon) 
+            daemon_enable="true"
+                ;;
+        -k|--kill) 
+            pkill_daemon
+            exit
         ;;
         *) break
     esac
     shift
 done
 
-# Start Calling Functions
-get_currenttime
-get_suntimes
-set_cache
+main(){
+    get_currenttime
+    get_suntimes
+    set_cache
 
-if [[ "$weather_enable" == "true" ]];then
-    check_weather
-fi
+    if [[ "$weather_enable" == "true" ]];then
+        check_weather
+    fi
 
-set_paper
+    set_paper
 
-if [ "$darkmode_enable" == "true" ]; then
-    local_darkmode
-fi
+    if [ "$darkmode_enable" == "true" ]; then
+        local_darkmode
+    fi
 
-if [ "$waybarmode_enable" == "true" ]; then
-    show_suntimes_waybar
+    if [ "$waybarmode_enable" == "true" ]; then
+        show_suntimes_waybar
+    fi
+}
+
+if [ "$daemon_enable" == "true" ]; then
+
+    #Try to prevent generating duplicate daemons.
+    if [[ $(pgrep -c "sunpaper.sh") -gt 1 ]] ;then
+        #do nothing
+        true
+    else
+        #Clear cache for first run 
+        clear_cache > /dev/null 2>&1
+
+        #TODO make this quiet?
+        echo "The Sunpaper daemon has started -- use sunpaper.sh -k to stop it."
+
+        #Then loop forever
+        while :; do
+            main &
+            sleep 60
+        done &
+    fi
+else
+    main
 fi
