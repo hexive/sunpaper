@@ -8,7 +8,7 @@ pkgrel=1
 pkgdesc=""
 arch=("any")
 url="https://github.com/hexive/sunpaper"
-license=('GPL')
+license=('Unknown')
 groups=()
 depends=('sunwait' 'wallutils')
 makedepends=('git') 
@@ -18,9 +18,7 @@ replaces=()
 backup=()
 options=()
 install=
-# This has to be reverted before merging
-# source=('git+https://github.com/hexive/sunpaper.git')
-source=('git+https://github.com/nmiculinic/sunpaper.git')
+source=('git+https://github.com/hexive/sunpaper.git')
 noextract=()
 md5sums=('SKIP')
 
@@ -39,7 +37,11 @@ package() {
     install -D -m755 sunpaper.sh "$pkgdir/usr/bin/sunpaper.sh"
     mkdir -p "$pkgdir/usr/share/sunpaper"
     cp -dr images "$pkgdir/usr/share/sunpaper/images"
-    install -D -m644 extra/config "$pkgdir/usr/share/sunpaper/config"
-    install -D -m644 extra/aur/sunpaper.service "$pkgdir/usr/lib/systemd/user/sunpaper.service"
-    install -D -m644 extra/aur/sunpaper.timer "$pkgdir/usr/lib/systemd/user/sunpaper.timer"
+    
+    #this should go to ~/.config/sunpaper/config
+    install -D -m644 extra/aur/config "$pkgdir/usr/share/sunpaper/config"
+
+    #Use daemon mode for automation instead of systemd?
+    #install -D -m644 extra/aur/sunpaper.service "$pkgdir/usr/lib/systemd/user/sunpaper.service"
+    #install -D -m644 extra/aur/sunpaper.timer "$pkgdir/usr/lib/systemd/user/sunpaper.timer"
 }
