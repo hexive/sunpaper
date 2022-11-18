@@ -18,7 +18,7 @@ latitude="38.9072N"
 longitude="77.0369W"
 
 # Set full path to the wallpaper theme folder
-# Theme folder names:
+# Theme folder names:grep
 #
 # Blake Watson & Sunpaper: Corporate-Synergy
 # Apple: The-Beach The-Cliffs The-Lake The-Desert
@@ -28,7 +28,7 @@ wallpaperPath="$HOME/sunpaper/images/Corporate-Synergy"
 
 # Set how you want your wallpaper displayed
 # stretch | center | tile | scale | zoom | fill
-wallpaperMode="scale"
+wallpaperMode="stretch"
 
 # Sunpaper writes some cache files to keep track of 
 # persistent variables.
@@ -80,7 +80,6 @@ weather_api_key=""
 #
 weather_city_id="4140963"
 
-
 #################################################
 # DARKMODE
 #################################################
@@ -131,6 +130,34 @@ pywal_image_night="true"
 
 
 #################################################
+# Animate transitions with SWWW MODE 
+# requires (https://github.com/Horus645/swww)
+#################################################
+#
+# For smooth low memory animated transitions between 
+# images for folks using Wayland.
+#
+# This also resolves the gray flash in Sway whenever changing
+# wallpaper. (https://github.com/swaywm/sway/issues/3693)
+#
+# enable this mode here with 
+# swww_enable="true"
+swww_enable="false"
+
+# swww should already be installed and configured.
+# sunpaper will launch the swww daemon if it's not
+# already started.
+
+# swww takes two options for animation control of the
+# transition between images: frame rate and step: 
+#
+# swww_fps <1 to 255>
+# swww_step <1 to 255>
+swww_fps="5"
+swww_step="5"
+
+
+#################################################
 # SWAY / WAYBAR MODE
 #################################################
 # Sunpaper has a special mode for use with sway/waybar 
@@ -142,29 +169,6 @@ pywal_image_night="true"
 
 # Set the icon display for that here
 status_icon=""
-
-
-#################################################
-# SWAY / OGURI MODE 
-# requires (https://github.com/vilhalmer/oguri)
-#################################################
-# Sway has an known issue https://github.com/swaywm/sway/issues/3693
-# that causes a gray flash whenever changing wallpaper.
-# Oguri uses an IPC which allows for smoother
-# no-flash wallpaper changes in sway.
-#
-# enable this mode here with 
-# oguri_enable="true"
-oguri_enable="false"
-
-# oguri should already be installed and configured.
-# sunpaper will launch the oguri socket with the
-# location of your oguri configuration file set here
-oguri_config="$HOME/.config/oguri/config"
-
-# oguri takes three options for wallpaper display
-# fill | tile | stretch
-wallpaperModeOguri="fill"
 
 
 #################################################
@@ -185,16 +189,19 @@ wallpaperModeOguri="fill"
 ##CONFIG OPTIONS END---------------------------- 
 
 
-#Sunpaper Version History
-#2.26 - initial commit
-#2.27 - functionize & option flags
-#2.28 - new darkmode feature
-#3.01 - new waybar feature
-#3.03 - pywall integration
-#3.05 - oguri integration
-#3.17 - moonphase & weather
+#Sunpaper Version History (yes, these versions are dates)
+#
+#02.26.20 - initial commit
+#02.27.20 - functionize & option flags
+#02.27.20 - functionize & option flags
+#02.28.20 - new darkmode feature
+#03.01.20 - new waybar feature
+#03.03.20 - pywall integration
+#03.05.20 - oguri integration (ended with 11.18.22 see swww)
+#03.17.20 - moonphase & weather
+#11.18.22 - swww animations
 
-version="3.17"
+version="11.18.22"
 
 # Check for external config file
 CONFIG_FILE=$HOME/.config/sunpaper/config
@@ -220,6 +227,7 @@ set_cache(){
         touch "$cacheFileWall"
         echo "0" > "$cacheFileWall"
         currentpaper=0
+        swww_first="true"
     fi
 
 }
@@ -453,21 +461,30 @@ setpaper_construct(){
 
 
     ################
-    # Oguri
+    # SWWW
 
-    if [ "$oguri_enable" == "true" ];then 
+    if [ "$swww_enable" == "true" ];then 
 
-        # Check for oguri socket and launch it if it isn't running
-        exec_oguri
+        # Check for swww dameon and launch it if it isn't running
+        exec_swww
 
         #TODO: is there a need to make this configurable?
         #output $display_output
 
-        # it takes awhile for that socket to start so make sure there's success before moving on
-        until ogurictl output \* --scaling-mode "$wallpaperModeOguri" --image "$wallpaperPath"/"$image".jpg > /dev/null 2>&1; do
-            ((c++)) && ((c==10)) && break
-            sleep 1
-        done
+        # it takes awhile for that daemon to start so make sure there's success before moving on
+
+        if [ "$swww_first" == "true" ];then 
+            # don't animate first load image
+            until swww img "$wallpaperPath"/"$image".jpg --transition-step 255 --transition-fps 255 > /dev/null 2>&1; do
+                 ((c++)) && ((c==10)) && break
+                sleep 1
+            done
+        else 
+            until swww img "$wallpaperPath"/"$image".jpg --transition-step "$swww_fps" --transition-fps "$swww_step" > /dev/null 2>&1; do
+                 ((c++)) && ((c==10)) && break
+                 sleep 1
+            done
+        fi
 
     else
         ################
@@ -645,14 +662,16 @@ get_weather(){
     fi
 }
 
-exec_oguri(){
+exec_swww(){
 
-    #Check if oguri socket is already running
-    if pgrep -x "oguri" > /dev/null ;then
+    #Check if swww daemon is already running
+    if pgrep -x "swww" > /dev/null ;then
         #do nothing
         true
+
     else
-        nohup oguri -c "$oguri_config" > /dev/null 2>&1 &
+        nohup swww init > /dev/null 2>&1 &
+
     fi
 }
 
