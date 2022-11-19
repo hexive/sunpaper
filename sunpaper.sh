@@ -9,6 +9,7 @@
 # There's also pretty good documentation on the wiki
 # https://github.com/hexive/sunpaper/wiki
 
+
 #################################################
 # BASIC CONFIGURATION
 #################################################
@@ -192,19 +193,18 @@ status_icon=""
 ##CONFIG OPTIONS END---------------------------- 
 
 
-#Sunpaper Version History (yes, these versions are dates)
+#Sunpaper Version History
 #
-#02.26.21 - initial commit
-#02.27.21 - functionize & option flags
-#02.27.21 - functionize & option flags
-#02.28.21 - new darkmode feature
-#03.01.21 - new waybar feature
-#03.03.21 - pywall integration
-#03.05.21 - oguri integration (ended with 11.18.22 see swww)
-#03.17.21 - moonphase & weather
-#11.18.22 - swww animations
+#1.0 - initial commit
+#1.1 - functionize & option flags
+#1.2 - new darkmode feature
+#1.3 - new waybar feature
+#1.4 - pywall integration
+#1.5 - oguri integration (ended with 2.0)
+#1.6 - moonphase & weather
+#2.0 - swww animations & let it snow
 
-version="11.18.22"
+version="2.0"
 
 # Check for external config file
 CONFIG_FILE=$HOME/.config/sunpaper/config
@@ -643,9 +643,6 @@ get_weather(){
                 
     else 
 
-        # TODO: HO HO HO we need some snow wallpapers
-        # [[ "$weather_main" = *Snow* ]]
-
         if [[ "$weather_main" = *Rain* ]] || [[ "${weather_main}" = *Drizzle* ]] || [[ "$weather_main" = *Mist* ]]; then
             currentWeather="rain"
 
@@ -657,6 +654,9 @@ get_weather(){
 
         elif [[ "$weather_main" = *Fog* ]] || [[ "$weather_main" = *Haze* ]] || [[ "$weather_main" = *Smoke* ]] || [[ "$weather_main" = *Dust* ]] || [[ "$weather_main" = *Sand* ]] || [[ "$weather_main" = *Ash* ]]; then
             currentWeather="fog"
+
+        elif [[ "$weather_main" = *Snow* ]] || [[ "$weather_main" = *Sleet* ]] ; then
+            currentWeather="snow"
 
         else
             currentWeather="cloud"
