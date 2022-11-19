@@ -80,6 +80,37 @@ weather_api_key=""
 #
 weather_city_id="4140963"
 
+
+#################################################
+# Animate transitions with SWWW MODE 
+# requires (https://github.com/Horus645/swww)
+# and Wayland
+#################################################
+#
+# For smooth low memory animated transitions between 
+# images.
+#
+# This also resolves the gray flash in Sway whenever changing
+# wallpaper. (https://github.com/swaywm/sway/issues/3693)
+#
+# enable this mode here with 
+# swww_enable="true"
+swww_enable="false"
+
+# swww should already be installed and configured.
+# sunpaper will launch the swww daemon if it's not
+# already started.
+
+# swww takes two options for animation control of the
+# transition between images: frame rate and step (more
+# info: https://github.com/Horus645/swww/issues/51)
+#
+# swww_fps <1 to 255>
+# swww_step <1 to 255>
+swww_fps="3"
+swww_step="3"
+
+
 #################################################
 # DARKMODE
 #################################################
@@ -130,34 +161,6 @@ pywal_image_night="true"
 
 
 #################################################
-# Animate transitions with SWWW MODE 
-# requires (https://github.com/Horus645/swww)
-#################################################
-#
-# For smooth low memory animated transitions between 
-# images for folks using Wayland.
-#
-# This also resolves the gray flash in Sway whenever changing
-# wallpaper. (https://github.com/swaywm/sway/issues/3693)
-#
-# enable this mode here with 
-# swww_enable="true"
-swww_enable="false"
-
-# swww should already be installed and configured.
-# sunpaper will launch the swww daemon if it's not
-# already started.
-
-# swww takes two options for animation control of the
-# transition between images: frame rate and step: 
-#
-# swww_fps <1 to 255>
-# swww_step <1 to 255>
-swww_fps="5"
-swww_step="5"
-
-
-#################################################
 # SWAY / WAYBAR MODE
 #################################################
 # Sunpaper has a special mode for use with sway/waybar 
@@ -191,14 +194,14 @@ status_icon=""
 
 #Sunpaper Version History (yes, these versions are dates)
 #
-#02.26.20 - initial commit
-#02.27.20 - functionize & option flags
-#02.27.20 - functionize & option flags
-#02.28.20 - new darkmode feature
-#03.01.20 - new waybar feature
-#03.03.20 - pywall integration
-#03.05.20 - oguri integration (ended with 11.18.22 see swww)
-#03.17.20 - moonphase & weather
+#02.26.21 - initial commit
+#02.27.21 - functionize & option flags
+#02.27.21 - functionize & option flags
+#02.28.21 - new darkmode feature
+#03.01.21 - new waybar feature
+#03.03.21 - pywall integration
+#03.05.21 - oguri integration (ended with 11.18.22 see swww)
+#03.17.21 - moonphase & weather
 #11.18.22 - swww animations
 
 version="11.18.22"
@@ -480,6 +483,7 @@ setpaper_construct(){
                 sleep 1
             done
         else 
+        
             until swww img "$wallpaperPath"/"$image".jpg --transition-step "$swww_fps" --transition-fps "$swww_step" > /dev/null 2>&1; do
                  ((c++)) && ((c==10)) && break
                  sleep 1
