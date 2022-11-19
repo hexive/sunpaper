@@ -8,7 +8,7 @@ pkgrel=1
 pkgdesc=""
 arch=("any")
 url="https://github.com/hexive/sunpaper"
-license=('Unknown')
+license=('LICENSE-APACHE')
 groups=()
 depends=('sunwait' 'wallutils')
 makedepends=('git') 
@@ -41,7 +41,4 @@ package() {
     #this should go to ~/.config/sunpaper/config
     install -D -m644 extra/aur/mv_config "$pkgdir/usr/share/sunpaper/config"
 
-    #Use daemon mode for automation instead of systemd?
-    #install -D -m644 extra/aur/sunpaper.service "$pkgdir/usr/lib/systemd/user/sunpaper.service"
-    #install -D -m644 extra/aur/sunpaper.timer "$pkgdir/usr/lib/systemd/user/sunpaper.timer"
 }

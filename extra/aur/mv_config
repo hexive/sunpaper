@@ -4,7 +4,7 @@
 
 # This script also has some testing functions that 
 # can be called with option flags. 
-# Check sunpaper -h 
+# Check sunpaper.sh -h 
 
 # There's also pretty good documentation on the wiki
 # https://github.com/hexive/sunpaper/wiki
@@ -18,7 +18,7 @@ latitude="38.9072N"
 longitude="77.0369W"
 
 # Set full path to the wallpaper theme folder
-# Theme folder names:
+# Theme folder names:grep
 #
 # Blake Watson & Sunpaper: Corporate-Synergy
 # Apple: The-Beach The-Cliffs The-Lake The-Desert
@@ -28,7 +28,7 @@ wallpaperPath="$HOME/sunpaper/images/Corporate-Synergy"
 
 # Set how you want your wallpaper displayed
 # stretch | center | tile | scale | zoom | fill
-wallpaperMode="scale"
+wallpaperMode="stretch"
 
 # Sunpaper writes some cache files to keep track of 
 # persistent variables.
@@ -79,6 +79,36 @@ weather_api_key=""
 # Check on http://openweathermap.org/find
 #
 weather_city_id="4140963"
+
+
+#################################################
+# Animate transitions with SWWW MODE 
+# requires (https://github.com/Horus645/swww)
+# and Wayland
+#################################################
+#
+# For smooth low memory animated transitions between 
+# images.
+#
+# This also resolves the gray flash in Sway whenever changing
+# wallpaper. (https://github.com/swaywm/sway/issues/3693)
+#
+# enable this mode here with 
+# swww_enable="true"
+swww_enable="false"
+
+# swww should already be installed and configured.
+# sunpaper will launch the swww daemon if it's not
+# already started.
+
+# swww takes two options for animation control of the
+# transition between images: frame rate and step (more
+# info: https://github.com/Horus645/swww/issues/51)
+#
+# swww_fps <1 to 255>
+# swww_step <1 to 255>
+swww_fps="3"
+swww_step="3"
 
 
 #################################################
@@ -145,26 +175,19 @@ status_icon=""
 
 
 #################################################
-# SWAY / OGURI MODE 
-# requires (https://github.com/vilhalmer/oguri)
+# EXTERNAL CONFIGURATION
 #################################################
-# Sway has an known issue https://github.com/swaywm/sway/issues/3693
-# that causes a gray flash whenever changing wallpaper.
-# Oguri uses an IPC which allows for smoother
-# no-flash wallpaper changes in sway.
+# Congratulations you've found a super secret undocumented
+# experimental feature. If you prefer to have an external 
+# configuration file, then simply copy everything above this 
+# section and put it in ~/.config/sunpaper/config
 #
-# enable this mode here with 
-# oguri_enable="true"
-oguri_enable="false"
+# Leave everything here in place as it is. Your config values
+# will overwrite these defaults.
+#
+# Just check back here if you you ever update the script for
+# any new config options.
 
-# oguri should already be installed and configured.
-# sunpaper will launch the oguri socket with the
-# location of your oguri configuration file set here
-oguri_config="$HOME/.config/oguri/config"
-
-# oguri takes three options for wallpaper display
-# fill | tile | stretch
-wallpaperModeOguri="fill"
 
 
 ##CONFIG OPTIONS END---------------------------- 
