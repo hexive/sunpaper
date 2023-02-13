@@ -39,7 +39,7 @@ Check the [wiki](https://github.com/hexive/sunpaper/wiki) for full documentation
 1. [Test it](https://github.com/hexive/sunpaper/wiki/Test-it) 
 1. [Set it to run automatically](https://github.com/hexive/sunpaper/wiki/Set-it-to-run-automatically) 
 
-Alternatively, install [Nix](https://nixos.org/download.html) in your Linux system and install the `sunpaper` package using: `nix-env -i sunpaper`.
+Alternatively, install [Nix](https://nixos.org/download.html) in your Linux system and install the `sunpaper` package using: `nix-env -iA sunpaper`.
 
 ## Why Sunpaper?
 
