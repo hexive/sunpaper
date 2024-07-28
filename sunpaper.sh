@@ -205,7 +205,7 @@ status_icon=""
 #2.0 - swww animations & let it snow
 #2.1 - I use Arch, btw. AUR support
 
-version="2.0"
+version="2.1"
 
 # Check for external config file
 CONFIG_FILE=$HOME/.config/sunpaper/config
