@@ -210,6 +210,15 @@ version="2.0"
 CONFIG_FILE=$HOME/.config/sunpaper/config
 if [ -f "$CONFIG_FILE" ];then
     . "$CONFIG_FILE"
+else
+	# if not found, check if a default exists in /usr/share/sunpaper/ 
+    SYSTEM_CONFIG_FILE=/usr/share/sunpaper/config
+    if [ -f "$SYSTEM_CONFIG_FILE" ];then
+		# and copy it to ~/.config/sunpaper/config if it exists
+        mkdir -p $HOME/.config/sunpaper
+		cp "$SYSTEM_CONFIG_FILE" "$CONFIG_FILE"
+		. "$CONFIG_FILE"
+    fi
 fi
 
 #Trim any trailing slashes from paths
