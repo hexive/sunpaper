@@ -720,7 +720,7 @@ Sunpaper Option Flags (cannot be combined)
                 like in different weather (weather is normally
                 cached for a period of time so you may need to 
                 call -c first to see changes)
-                Clear | Clouds | Rain | Thunderstorm | Fog  
+                Clear | Clouds | Rain | Thunderstorm | Fog | Snow 
 
 -w, --waybar,   Waybar! Use sway/waybar? Call sunpaper.sh with this 
                 flag in the waybar config and it will display
