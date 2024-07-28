@@ -203,6 +203,7 @@ status_icon=""
 #1.5 - oguri integration (ended with 2.0)
 #1.6 - moonphase & weather
 #2.0 - swww animations & let it snow
+#2.1 - I use Arch, btw. AUR support
 
 version="2.0"
 
