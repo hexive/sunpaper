@@ -19,8 +19,7 @@ latitude="38.9072N"
 longitude="77.0369W"
 
 # Set full path to the wallpaper theme folder
-# Theme folder names:grep
-#
+# Theme folder names:
 # Blake Watson & Sunpaper: Corporate-Synergy
 # Apple: The-Beach The-Cliffs The-Lake The-Desert
 # Louis Coyle: Lakeside
