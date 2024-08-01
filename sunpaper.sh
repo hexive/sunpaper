@@ -634,7 +634,7 @@ get_weather(){
 
     else
         weather_info=$(wget -qO- "$weather_url")
-        weather_main=$(echo "$weather_info" | grep -o -e '\"main\":\"[a-zA-Z]*\"' | awk -F ':' '{print $2}' | tr -d '"')
+        weather_main=$(echo "$weather_info" | grep -o -e '"main":"[a-zA-Z]*"' | awk -F ':' '{print $2}' | tr -d '"')
     fi
 
 
